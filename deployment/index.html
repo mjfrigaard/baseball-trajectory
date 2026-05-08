@@ -11,8 +11,10 @@
       
       
       
-        <link rel="prev" href="../reference/">
+        <link rel="prev" href="../data/">
       
+      
+        <link rel="next" href="../reference/">
       
       
         
@@ -23,7 +25,7 @@
     
     
       
-        <title>Limitations - baseball-trajectory</title>
+        <title>Deployment - baseball-trajectory</title>
       
     
     
@@ -74,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#limitations" class="md-skip">
+        <a href="#deployment" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Limitations
+              Deployment
             
           </span>
         </div>
@@ -366,10 +368,37 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../deployment/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -385,6 +414,120 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Local
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#posit-connect-cloud" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Posit Connect Cloud
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Posit Connect Cloud">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Steps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pinning-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pinning dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#egress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Egress
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-two-apppy-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why two app.py files?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-shiny-hosts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Other Shiny hosts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation-site" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation site
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -420,37 +563,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Limitations
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../limitations/" class="md-nav__link">
         
   
   
@@ -466,92 +582,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#search-coverage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Search coverage
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#single-shape-model" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Single-shape model
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#aggregation-across-stints" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Aggregation across stints
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#no-adjustments" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        No adjustments
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#age-cutoff" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Age cutoff
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#active-final-season-labels" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        "Active" / "final season" labels
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -583,10 +613,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#search-coverage" class="md-nav__link">
+  <a href="#local" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Search coverage
+        Local
       
     </span>
   </a>
@@ -594,10 +624,71 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#single-shape-model" class="md-nav__link">
+  <a href="#posit-connect-cloud" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Single-shape model
+        Posit Connect Cloud
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Posit Connect Cloud">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Steps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pinning-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pinning dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#egress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Egress
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-two-apppy-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why two app.py files?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-shiny-hosts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Other Shiny hosts
       
     </span>
   </a>
@@ -605,43 +696,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#aggregation-across-stints" class="md-nav__link">
+  <a href="#documentation-site" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Aggregation across stints
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#no-adjustments" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        No adjustments
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#age-cutoff" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Age cutoff
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#active-final-season-labels" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        "Active" / "final season" labels
+        Documentation site
       
     </span>
   </a>
@@ -665,67 +723,116 @@
 
 
 
-<h1 id="limitations">Limitations<a class="headerlink" href="#limitations" title="Permanent link">&para;</a></h1>
-<p>Known behaviours of this app and where they come from.</p>
-<h2 id="search-coverage">Search coverage<a class="headerlink" href="#search-coverage" title="Permanent link">&para;</a></h2>
-<p>The MLB Stats API endpoint we use
-(<code>/api/v1/sports/1/players?season=Y</code>) returns only players who
-appeared in season <code>Y</code>. The app stitches together rosters across
-recent seasons:</p>
-<ul>
-<li><strong>Typeahead</strong> covers the current season + 3 prior seasons.</li>
-<li><strong>Deep search</strong> (Search-button fallback) covers ~30 prior seasons.</li>
-</ul>
-<p>Players who retired before the deep-search window aren't reachable
-through the UI. The MLB Stats API has older records; adding the
-all-time <code>/api/v1/people/search</code> endpoint would extend coverage if
-needed.</p>
-<h2 id="single-shape-model">Single-shape model<a class="headerlink" href="#single-shape-model" title="Permanent link">&para;</a></h2>
-<p>The curve assumes one quadratic describes the entire career. This is
-a poor fit for:</p>
-<ul>
-<li><strong>Injury-recovery careers</strong> — a dip mid-career, a recovery, then
-  decline.</li>
-<li><strong>Position changes</strong> that move a player's offensive baseline (e.g.
-  catcher → first base).</li>
-<li><strong>Knuckleballers</strong> and other pitchers with unusual aging patterns.</li>
-</ul>
-<p>The output isn't lying when this happens; it's just averaging.</p>
-<h2 id="aggregation-across-stints">Aggregation across stints<a class="headerlink" href="#aggregation-across-stints" title="Permanent link">&para;</a></h2>
-<p>Multi-team seasons (when a player is traded mid-year) are aggregated
-into a single season row by <strong>summing counting stats</strong>. Rate stats
-are <strong>recomputed from the summed totals</strong> — so a traded batter's AVG
-is total H ÷ total AB, not the mean of his per-team averages.</p>
-<p>This is the right thing in almost every case, but if you're pulling
-data programmatically and need stint-level granularity, you'll need
-to call the MLB Stats API directly.</p>
-<h2 id="no-adjustments">No adjustments<a class="headerlink" href="#no-adjustments" title="Permanent link">&para;</a></h2>
-<p>Raw counting and rate stats only:</p>
-<ul>
-<li><strong>No park factors</strong> — Coors Field hitters look better than they
-  should.</li>
-<li><strong>No era adjustments</strong> — a 1908 OPS is treated the same as a 2019
-  OPS.</li>
-<li><strong>No DH/non-DH splits</strong> — pitchers' bat-side stats from before the
-  universal DH are mixed in.</li>
-<li><strong>No league-strength weighting</strong>.</li>
-</ul>
-<h2 id="age-cutoff">Age cutoff<a class="headerlink" href="#age-cutoff" title="Permanent link">&para;</a></h2>
-<p>Age is computed as of July 1 — the standard mid-season rule. Players
-born July or later are counted as one year younger for that season.
-Borderline cases (a player born June 28 vs. July 2) appear in
-adjacent age buckets even though they're days apart.</p>
-<h2 id="active-final-season-labels">"Active" / "final season" labels<a class="headerlink" href="#active-final-season-labels" title="Permanent link">&para;</a></h2>
-<p>In the search dropdown, the trailing label is one of:</p>
-<ul>
-<li><code>Active</code> — the player has the <code>active=True</code> flag on the most recent
-  roster they appear on.</li>
-<li>A four-digit year — the most recent season the player appears on a
-  searched roster.</li>
-</ul>
-<p>This is a proxy for <em>final season</em>, not an authoritative answer.
-Players in the deep-search range who played in a season <em>outside</em> our
-30-year window will show a year inside the window.</p>
+<h1 id="deployment">Deployment<a class="headerlink" href="#deployment" title="Permanent link">&para;</a></h1>
+<p>The app is a standard Shiny for Python application — it can run
+anywhere Shiny apps run. This page covers the supported targets.</p>
+<h2 id="local">Local<a class="headerlink" href="#local" title="Permanent link">&para;</a></h2>
+<p>For development:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[dev]&quot;</span>
+</code></pre></div>
+<p>Then either the console script:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>baseball-trajectory
+</code></pre></div>
+<p>Or the entry-point file directly:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>shiny<span class="w"> </span>run<span class="w"> </span>app.py
+</code></pre></div>
+<p>Both bind to <code>127.0.0.1:8000</code>.</p>
+<h2 id="posit-connect-cloud">Posit Connect Cloud<a class="headerlink" href="#posit-connect-cloud" title="Permanent link">&para;</a></h2>
+<p>Two files at the repo root make the project deployable to
+<a href="https://connect.posit.cloud/">Posit Connect Cloud</a> out of the box:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>requirements.txt</code></td>
+<td>Connect Cloud's installer reads only this file. It does not run <code>pip install -e .</code> against <code>pyproject.toml</code>.</td>
+</tr>
+<tr>
+<td><code>app.py</code> (root)</td>
+<td>Deployment shim. Adds <code>src/</code> to <code>sys.path</code> and re-exports the Shiny <code>app</code> so Connect Cloud's primary-file mechanism finds it.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Push the project to a GitHub repository (Connect Cloud deploys from
+   GitHub).</li>
+<li>In Connect Cloud, click <strong>New Content → Shiny for Python</strong>.</li>
+<li>Select your GitHub repository and branch.</li>
+<li>Set <strong>Primary file</strong> to <code>app.py</code> — the root one, not
+   <code>src/baseball_trajectory/app.py</code>.</li>
+<li>Click <strong>Deploy</strong>.</li>
+</ol>
+<p>Connect Cloud installs <code>requirements.txt</code>, imports the primary file,
+and serves the resulting Shiny <code>App</code> object.</p>
+<h3 id="pinning-dependencies">Pinning dependencies<a class="headerlink" href="#pinning-dependencies" title="Permanent link">&para;</a></h3>
+<p>The default <code>requirements.txt</code> lists deps without version constraints
+— Connect Cloud picks compatible versions at deploy time. For
+reproducible deploys, pin to your working environment:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>pip<span class="w"> </span>freeze<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;^(shiny|polars|numpy|statsmodels|matplotlib|requests)==&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>requirements.txt
+</code></pre></div>
+<p>Or use <code>pip-compile</code> (from <code>pip-tools</code>) to derive <code>requirements.txt</code>
+from <code>pyproject.toml</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>pip<span class="w"> </span>install<span class="w"> </span>pip-tools
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>pip-compile<span class="w"> </span>pyproject.toml<span class="w"> </span>-o<span class="w"> </span>requirements.txt
+</code></pre></div>
+<p>Re-run on dependency changes and commit the result.</p>
+<h3 id="egress">Egress<a class="headerlink" href="#egress" title="Permanent link">&para;</a></h3>
+<p>The app fetches roster and career data from <code>https://statsapi.mlb.com</code>.
+If your Connect Cloud account has egress restrictions, allowlist that
+host.</p>
+<h3 id="why-two-apppy-files">Why two <code>app.py</code> files?<a class="headerlink" href="#why-two-apppy-files" title="Permanent link">&para;</a></h3>
+<p>The package layout uses <code>src/baseball_trajectory/app.py</code> for the real
+Shiny code. The root-level <code>app.py</code> is a deployment shim — it exists
+because Connect Cloud doesn't install the package, just runs the
+primary file. Local development uses the console script
+(<code>baseball-trajectory</code>), which goes through <code>__main__.py</code> and never
+touches the root shim.</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src/baseball_trajectory/app.py</code></td>
+<td>Real Shiny UI + server code.</td>
+</tr>
+<tr>
+<td><code>app.py</code> (root)</td>
+<td>Adds <code>src/</code> to <code>sys.path</code> and re-exports <code>app</code>. Used by Connect Cloud and <code>shiny run app.py</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="other-shiny-hosts">Other Shiny hosts<a class="headerlink" href="#other-shiny-hosts" title="Permanent link">&para;</a></h2>
+<p>Posit Connect (on-prem), ShinyApps.io, and self-hosted Uvicorn all
+support the same primary-file pattern. The root <code>app.py</code> is portable
+across them.</p>
+<p>For pure local serving without the console script:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>shiny<span class="w"> </span>run<span class="w"> </span>app.py
+</code></pre></div>
+<p>For container deploys, install <code>requirements.txt</code> and run
+<code>shiny run app.py</code> as the container entry point. A minimal Dockerfile:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">FROM</span><span class="w"> </span><span class="s">python:3.11-slim</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="k">COPY</span><span class="w"> </span>requirements.txt<span class="w"> </span>.
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--no-cache-dir<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="k">COPY</span><span class="w"> </span>src/<span class="w"> </span>src/
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="k">COPY</span><span class="w"> </span>app.py<span class="w"> </span>.
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="k">EXPOSE</span><span class="w"> </span><span class="s">8000</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;shiny&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;run&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;--host&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;--port&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;8000&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;app.py&quot;</span><span class="p">]</span>
+</code></pre></div>
+<h2 id="documentation-site">Documentation site<a class="headerlink" href="#documentation-site" title="Permanent link">&para;</a></h2>
+<p>The docs themselves deploy to GitHub Pages — covered in the
+<strong>Publishing</strong> section of the README.</p>
 
 
 
