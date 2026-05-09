@@ -41,5 +41,7 @@ Press `Ctrl-C` in the terminal where `baseball-trajectory` is running.
 
 ## Next
 
-Read the [User guide](user-guide.md) for the full sidebar walkthrough,
-including how to look up older retired players.
+- Read the [User guide](user-guide.md) for the full sidebar walkthrough,
+  including how to look up older retired players.
+- See the [Deployment](deployment.md) page if you want to host the app
+  yourself (Posit Connect Cloud, Docker, etc.).

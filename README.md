@@ -105,8 +105,11 @@ shaded ribbon on the chart.
 ```
 baseball-trajectory/
 ├── pyproject.toml
+├── requirements.txt        # runtime deps for Connect Cloud
+├── app.py                  # Connect Cloud primary-file shim
 ├── README.md
 ├── .gitignore
+├── mkdocs.yml              # docs site config
 ├── src/
 │   └── baseball_trajectory/
 │       ├── __init__.py     # version
@@ -115,9 +118,13 @@ baseball-trajectory/
 │       ├── model.py        # WLS aging-curve fit + summaries
 │       ├── plots.py        # matplotlib trajectory chart
 │       └── app.py          # Shiny UI + server
-└── tests/
-    ├── __init__.py
-    └── test_model.py
+├── docs/                   # MkDocs sources
+├── tests/
+│   ├── __init__.py
+│   └── test_model.py
+└── .github/
+    └── workflows/
+        └── docs.yml        # CI auto-deploy docs to GitHub Pages
 ```
 
 ## Documentation
@@ -186,6 +193,36 @@ involved. To enable it:
 
 The first run requires a workflow approval if your account uses
 required-reviewer policies on Pages deployments.
+
+### App → Posit Connect Cloud
+
+The repo includes two files at the root that make the project
+deployable to [Posit Connect Cloud](https://connect.posit.cloud/) out
+of the box:
+
+- `requirements.txt` — Connect Cloud's installer reads only this file.
+  It does not run `pip install -e .` against `pyproject.toml`.
+- `app.py` (at the root) — a deployment shim. Connect Cloud loads its
+  *primary file* and looks for an `app` object; this shim adds `src/`
+  to `sys.path` and re-exports the Shiny app from
+  `baseball_trajectory.app`.
+
+To deploy:
+
+1. Push the project to a GitHub repository (Connect Cloud deploys from
+   GitHub).
+2. In Connect Cloud, click **New Content → Shiny for Python**.
+3. Select your GitHub repository and branch.
+4. Set **Primary file** to `app.py` (the root one, not
+   `src/baseball_trajectory/app.py`).
+5. Click **Deploy**.
+
+The app reaches out to `https://statsapi.mlb.com` for roster and career
+data — if your Connect Cloud account has egress controls, allowlist
+that host.
+
+For full deployment details (pinning, container deploys, other Shiny
+hosts), see the [Deployment page](docs/deployment.md) in the docs.
 
 ### Package distribution
 
