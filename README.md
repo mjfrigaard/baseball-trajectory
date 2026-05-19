@@ -1,10 +1,21 @@
 # baseball-trajectory
 
 A small Shiny app for visualizing a baseball player's career arc on a single
-metric (OPS for batters, ERA for pitchers, and so on). It pulls per-season
-stats from the MLB Stats API, fits a weighted quadratic aging curve, and
-plots the player's trajectory with a 95% confidence band and a marked peak
-age.
+metric — e.g. **OPS** (on-base + slugging) for batters or **ERA** (earned
+run average) for pitchers. It pulls per-season stats from the MLB Stats
+API, fits a weighted quadratic aging curve, and plots the player's
+trajectory with a 95% confidence band and a marked peak age.
+
+**Batter metrics**: OPS (on-base + slugging), OBP (on-base percentage),
+SLG (slugging percentage), AVG (batting average), HR (home runs),
+ISO (isolated power; `SLG − AVG`).
+
+**Pitcher metrics**: ERA (earned run average), WHIP (walks + hits per
+inning pitched), K/9 (strikeouts per 9 innings), BB/9 (walks per 9
+innings), HR/9 (home runs per 9 innings). Lower is better for ERA,
+WHIP, BB/9, and HR/9.
+
+See `docs/metrics.md` for full definitions, formulas, and benchmarks.
 
 ## Install
 
@@ -22,35 +33,45 @@ Then open <http://127.0.0.1:8000> in a browser.
 
 ## Usage
 
-The sidebar workflow is two-step: pick a player, then commit.
+The sidebar workflow is two-step: **find a player, then load their
+stats.** Each step has its own button.
 
-1. **Type a name** in the *Player name* box (≥2 characters). A dropdown of
-   matches appears as you type — typeahead is fast because it filters a
-   cached current-season roster locally.
-2. **Pick a player** from the dropdown.
-3. **Click *Search*** to load that player's career stats. The plot, summary,
-   and season log update.
+1. **Player type** — *Active players* (fast typeahead, current season +
+   3 prior) or *Retired players* (deeper window, ~50 seasons).
+2. **Position** — *Batter* or *Pitcher*. Swaps the metric list and the
+   weight column.
+3. **Type a name** in the *Player name* box (≥2 characters). The
+   dropdown auto-populates as you type, with each row labelled
+   *Player Name — Position (Debut–Final)*, e.g.
+   *Mike Trout — CF (2011–Active)*. The dropdown is **filtered by
+   the Position toggle**: *Pitcher* only shows `P` and `TWP`
+   (two-way players); *Batter* shows everything except pure pitchers.
+   That stops you from picking a position player while *Pitcher* is
+   selected and seeing an empty curve.
+4. **Pick a player** from the dropdown. A small info card appears
+   beneath the picker showing the full name, position, and
+   debut–final seasons.
+5. **Click *Get Stats***. The trajectory plot, career summary, and
+   season log all update.
 
-Picking from the dropdown alone does not load stats — that's deliberate, so
-the chart only updates on an explicit commit. To switch to a different
-player, clear the box, type a new name, pick from the new dropdown, and
-click *Search* again.
+The plot only updates on Get Stats — picking from the dropdown alone
+does nothing — so the chart stays stable while you browse search
+results.
 
-**Looking up a retiree?** If typeahead shows no matches (the typeahead
-window only covers the current season + 3 prior seasons, for speed),
-click *Search* anyway. It falls back to a deep ~30-season lookup that
-covers most modern retirees — Albert Pujols, Adrián Beltré, etc. The app
-then prompts you to pick from the new list and click *Search* once more
-to commit.
+**Looking up a retiree?** Switch *Player type* to *Retired players*.
+The auto-typeahead window widens to ~50 seasons (Griffey, Pedro,
+Nolan Ryan, etc. all come up). For pre-1976 retirees, click the
+*Search* button to do an even deeper ~80-season lookup.
 
 Other controls:
 
-- **Player type** — switches between batter metrics (OPS, AVG, …) and
-  pitcher metrics (ERA, WHIP, …).
-- **Min PA / IP per season** — filters out partial seasons (cups of
-  coffee, injury years) before the curve is fit.
-- **Refresh data cache** — clears the in-process cache so the next search
-  re-downloads from the MLB Stats API.
+- **Metric** — drives the y-axis of the trajectory plot. The dropdown
+  labels expand the acronyms (e.g. *OPS — On-base + Slugging*,
+  *ERA — Earned run average*).
+- **Min PA / IP per season** — filters out partial seasons before the
+  curve is fit. Hover the *ⓘ* icon next to the label for details.
+- **Refresh data cache** — clears the in-process cache so the next
+  search re-downloads from the MLB Stats API.
 
 ## Data sources
 

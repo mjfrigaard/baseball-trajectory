@@ -21,7 +21,15 @@ def plot_trajectory(
     weight_col: str,
     player_name: str,
     lower_better: bool = False,
+    metric_description: str | None = None,
 ) -> Figure:
+    """Scatter + fitted-curve plot.
+
+    ``metric_description`` is the plain-language expansion of ``y_col``
+    (e.g. ``"On-base + Slugging"`` for OPS). When provided, it's shown
+    parenthetically in the title and used as the y-axis label so
+    viewers don't need to read an acronym table.
+    """
     ages = df["Age"].to_numpy().astype(float)
     ys = df[y_col].to_numpy().astype(float)
     weights = df[weight_col].to_numpy().astype(float)
@@ -54,9 +62,10 @@ def plot_trajectory(
         )
         ax.legend(loc="best", frameon=False)
 
-    ax.set_title(f"{player_name} — {y_col} by Age")
+    title_metric = f"{y_col} ({metric_description})" if metric_description else y_col
+    ax.set_title(f"{player_name} — {title_metric} by Age")
     ax.set_xlabel("Age")
-    ax.set_ylabel(y_col)
+    ax.set_ylabel(f"{y_col} — {metric_description}" if metric_description else y_col)
     ax.grid(alpha=0.3)
 
     if lower_better:

@@ -15,6 +15,7 @@ dependencies = [
     "statsmodels",
     "matplotlib",
     "requests",
+    "great-tables",
 ]
 
 [project.optional-dependencies]
@@ -25,6 +26,7 @@ dev = [
 docs = [
     "mkdocs",
     "mkdocs-material",
+    "mkdocs-glightbox",
 ]
 
 [project.scripts]
@@ -32,3 +34,4 @@ baseball-trajectory = "baseball_trajectory.__main__:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/baseball_trajectory"]
+include = ["src/baseball_trajectory/*.css"]

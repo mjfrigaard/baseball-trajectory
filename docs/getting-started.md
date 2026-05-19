@@ -28,12 +28,33 @@ browser.
 
 ## Your first trajectory
 
-1. Leave **Player type** on *Batter*.
+1. Leave **Player type** on *Active players* and **Position** on
+   *Batter* (the defaults).
 2. Type `Trout` in the **Player name** box. The dropdown populates
-   with matches.
-3. Pick **Mike Trout** in the dropdown.
-4. Click **Search**. The plot, summary table, and season log fill in.
-5. Try changing **Metric** from `OPS` to `HR` to see his home-run arc.
+   with matches as you type — each row shows the player's position,
+   e.g. *Mike Trout — CF (2011–Active)*.
+3. Pick **Mike Trout** in the dropdown. A small info card appears
+   confirming the pick (full name, position, debut–final seasons).
+4. Click **Get Stats**. The trajectory plot, career summary, and
+   season log fill in.
+5. Try changing **Metric** from `OPS — On-base + Slugging` to `HR —
+   Home runs` to see his home-run arc.
+
+<figure markdown>
+  ![Mike Trout's OPS-by-age trajectory](images/career-trajectory-trout.png){ width="720" }
+  <figcaption>The result of the first-trajectory walkthrough: scatter
+  of seasons (size proportional to PA), the weighted-quadratic fit, a
+  95% confidence ribbon, and a dashed line at the fitted peak age.</figcaption>
+</figure>
+
+### Looking up a retiree
+
+Toggle **Player type** to *Retired players*, then type
+e.g. `Griffey` or `Ryan`. The auto-typeahead window widens to ~50
+seasons in this mode, so older retirees come up directly. If a name
+still doesn't appear, click the **Search** button to do an even
+deeper lookup. See the [User guide](user-guide.md) for the full
+workflow.
 
 ## Stopping the server
 

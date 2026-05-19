@@ -26,21 +26,72 @@ Three layers, all in-process:
 - **Manual refresh** — `data.refresh_cache()` clears all of the
   above. The *Refresh data cache* sidebar button calls it.
 
-## Two-tier search
+## Search windows
 
 `search_player(query, seasons_back=N)` walks rosters from the current
 season back through `N` prior seasons, returning on the first season
-that yields matches:
+that yields matches. The app picks `N` based on the **Player type**
+toggle and on whether the user clicked **Search** explicitly:
 
-| Path                              | `seasons_back` | Use case                                  |
-| --------------------------------- | -------------- | ----------------------------------------- |
-| Typeahead (auto, on each keystroke) | `3`          | Active and very-recently-retired players  |
-| Deep search (Search button when typeahead is empty) | `29` | Modern retirees back ~30 years   |
+| Mode                          | Typeahead (auto, on each keystroke) | Search button (explicit deep lookup) |
+| ----------------------------- | ----------------------------------- | ------------------------------------ |
+| **Active players**            | `seasons_back=3`                    | `seasons_back=29`                    |
+| **Retired players**           | `seasons_back=50`                   | `seasons_back=80`                    |
 
-Why two tiers: a wide window on every keystroke would trigger many
-roster downloads for typo-y queries (each non-matching season
-iterates fully before the loop returns empty). The narrow typeahead
-path stays fast; the deep path is opt-in via the Search click.
+Active mode keeps typeahead fast (one season's roster is enough for
+the current MLB roster). Retired mode widens both windows so older
+retirees (Griffey Jr. 2010, Pedro Martínez 2009, Nolan Ryan 1993,
+Stan Musial 1963, …) come up — at the cost of a one-time
+roster-download burst when the user toggles into Retired and types
+their first keystroke (~15–25 seconds on a cold cache, instant
+afterwards).
+
+The Search button is also the *deep-search* fallback. If
+auto-typeahead returns nothing (e.g. typing a name in Active mode
+that only appears in older rosters), clicking Search runs the wider
+lookup and refreshes the dropdown — without committing or loading
+stats.
+
+## Position in the roster cache
+
+Each cached roster row carries the player's primary fielding position
+(`primaryPosition.abbreviation` from the MLB Stats API — e.g. `CF`,
+`P`, `SS`). `search_player` returns it as a `position` column, and
+the app uses it in two ways:
+
+1. **Dropdown labels** include the position next to the player's
+   name — *Mike Trout — CF (2011–Active)* — so users can spot a
+   mismatch before committing.
+2. **The dropdown is filtered by the Position toggle**, so users
+   never see candidates whose primary position can't yield the
+   requested kind of career data.
+
+### Position-filter rules
+
+The filter is applied in the app layer (`_filter_by_position` in
+`app.py`) right after every `data.search_player` call, before
+`search_results` is published to the dropdown:
+
+| Position toggle | Primary-position codes kept                                   |
+| --------------- | ------------------------------------------------------------- |
+| **Pitcher**     | `P` (pure pitcher), `TWP` (two-way player, e.g. Ohtani)       |
+| **Batter**      | Everything *except* `P` — `C`, `1B`, `2B`, `3B`, `SS`, `LF`, `CF`, `RF`, `OF`, `DH`, `TWP`, … |
+
+Rows whose primary position is `null` are excluded in both modes —
+we can't confirm the player has enough data either way.
+
+The filter is intentionally **static**: it uses the
+`primaryPosition` field that comes with the roster response, not a
+per-player career-stats lookup. That keeps the dropdown fast (no
+extra HTTP calls), at the cost of a slightly conservative
+definition of "has enough data" — a position player who once threw
+a knuckleball in a blowout game will be filtered out, but that's
+the right call for an aging-curve fit.
+
+When a search returns matches but the filter drops them all, the
+picker shows a position-aware empty state (*"No matching pitchers
+found. Try switching Position to Batter."*) instead of an empty
+dropdown.
 
 ## Multi-team season aggregation
 

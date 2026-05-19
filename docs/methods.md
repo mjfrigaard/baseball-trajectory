@@ -31,8 +31,10 @@ multi-stint seasons. Age is computed with the standard mid-season rule
 
 ## The quadratic aging curve
 
-For a given metric `y` (OPS, AVG, ERA, …) we fit a weighted least-squares
-quadratic across the player's seasons:
+For a given metric `y` — OPS (on-base + slugging), AVG (batting
+average), ERA (earned run average), or any of the other metrics
+listed on the [Metrics](metrics.md) page — we fit a weighted
+least-squares quadratic across the player's seasons:
 
 ```
 y = β₀ + β₁·Age + β₂·Age² + ε

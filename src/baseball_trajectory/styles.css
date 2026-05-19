@@ -1,0 +1,92 @@
+/* MLB-inspired theme for baseball-trajectory.
+ * Navy (#041E42) and red (#BF0D3E) match common MLB league-mark usage.
+ */
+
+:root {
+    --mlb-navy: #041E42;
+    --mlb-red: #BF0D3E;
+    --mlb-light-blue: #E8EEF6;
+    --mlb-text-muted: #555;
+}
+
+/* Card headers — navy bar with red underline accent */
+.card-header {
+    background-color: var(--mlb-navy);
+    color: #fff;
+    font-weight: 600;
+    border-bottom: 2px solid var(--mlb-red);
+}
+
+/* Primary action (Get Stats) — solid navy */
+.btn-primary,
+.btn-primary:disabled {
+    background-color: var(--mlb-navy);
+    border-color: var(--mlb-navy);
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: #0a2d5e;
+    border-color: #0a2d5e;
+}
+
+/* Outline action (Search) — navy outline that fills on hover */
+.btn-outline-primary {
+    color: var(--mlb-navy);
+    border-color: var(--mlb-navy);
+}
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active {
+    background-color: var(--mlb-navy);
+    color: #fff;
+    border-color: var(--mlb-navy);
+}
+
+/* Secondary action (Refresh data cache) — neutral with red hover */
+.btn-secondary:hover,
+.btn-secondary:focus {
+    background-color: var(--mlb-red);
+    border-color: var(--mlb-red);
+    color: #fff;
+}
+
+/* Picked-player info card */
+.bbt-selected-player {
+    background: var(--mlb-light-blue);
+    border-left: 3px solid var(--mlb-navy);
+    padding: 0.5rem 0.75rem;
+    margin: 0.5rem 0;
+    border-radius: 4px;
+}
+.bbt-selected-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--mlb-navy);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+/* Spacing block — wrap inputs that need extra room below them */
+.bbt-position-block {
+    margin-bottom: 1.25rem;
+}
+
+/* Metric caption shown under a card header */
+.bbt-metric-caption {
+    color: var(--mlb-text-muted);
+    font-size: 0.85rem;
+    margin: 0.5rem 0.75rem 0.25rem 0.75rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px dashed #ddd;
+}
+.bbt-metric-caption strong {
+    color: var(--mlb-navy);
+}
+
+/* Page accent — subtle navy strip above the sidebar/main split */
+.bslib-sidebar-layout {
+    border-top: 3px solid var(--mlb-navy);
+}

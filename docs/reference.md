@@ -11,7 +11,7 @@ Player search and per-player career queries.
 
 | Function                                       | Returns         | Description                                                                                                      |
 | ---------------------------------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `search_player(query, seasons_back=3)`         | `pl.DataFrame`  | Substring-match player names against cached MLB rosters. Walks `seasons_back+1` rosters from the current season backward, returning on the first season with matches. Up to 50 rows. |
+| `search_player(query, seasons_back=3)`         | `pl.DataFrame`  | Substring-match player names against cached MLB rosters. Walks `seasons_back+1` rosters from the current season backward, returning on the first season with matches. Output columns: `playerID`, `fullName`, `debutYear`, `finalYear`, `position` (primary-position abbreviation). Up to 50 rows. |
 | `get_batting_career(player_id)`                | `pl.DataFrame`  | Per-season batting career: `Season`, `Age`, `PA`, `AB`, `H`, `HR`, `AVG`, `OBP`, `SLG`, `OPS`, `ISO`, `BB%`, `K%`. Multi-team seasons aggregated. |
 | `get_pitching_career(player_id)`               | `pl.DataFrame`  | Per-season pitching career: `Season`, `Age`, `IP`, `ERA`, `WHIP`, `K/9`, `BB/9`, `HR/9`, `W`, `L`, `SO`, `BB`. |
 | `get_player_career_totals(player_id)`          | `dict`          | Career batting totals + primary position. Keys: `playerID`, `fullName`, `G`, `AB`, `R`, `H`, `2B`, `3B`, `HR`, `RBI`, `BB`, `SO`, `SB`, `AVG`, `SLG`, `POS`. Suitable as input to similarity scoring. |
@@ -44,14 +44,14 @@ Aging-curve fit and summaries.
 | `fit_aging_curve(df, y_col, weight_col, age_col="Age", center=30.0)` | `dict \| None` | Centered-form quadratic fit: `y = A + B·(Age−center) + C·(Age−center)²`. Returns interpretable `A`, `B`, `C` plus `peak_age`, `max_value`. See [Methods](methods.md#centered-form-r-style-interpretation). |
 | `predict_curve(fit, ages)`                              | `pl.DataFrame`   | Predictions over an age grid with 95% CI: columns `Age`, `predicted`, `ci_low`, `ci_high`.                       |
 | `summarize_career(df, y_col, weight_col)`               | `dict`           | Career summary: `weighted_mean`, `best_season`, `peak_age`, `total_weight`. Native Python types (no Polars scalars). |
-| `is_lower_better(metric)`                               | `bool`           | `True` for ERA, WHIP, BB/9, HR/9.                                                                                |
+| `is_lower_better(metric)`                               | `bool`           | `True` for the pitcher rate metrics where lower is better — ERA (earned run avg), WHIP (walks + hits per IP), BB/9 (walks per 9 IP), HR/9 (homers per 9 IP). |
 
 ### Constants
 
 | Name                | Type                | Description                                                            |
 | ------------------- | ------------------- | ---------------------------------------------------------------------- |
-| `BATTING_METRICS`   | `dict[str, str]`    | Metric → weight column. `OPS`, `OBP`, `SLG`, `AVG`, `HR`, `ISO` → `PA`. |
-| `PITCHING_METRICS`  | `dict[str, str]`    | `ERA`, `WHIP`, `K/9`, `BB/9`, `HR/9` → `IP`.                            |
+| `BATTING_METRICS`   | `dict[str, str]`    | Metric → weight column. Keys are batter acronyms — **OPS** (on-base + slugging), **OBP** (on-base percentage), **SLG** (slugging percentage), **AVG** (batting average), **HR** (home runs), **ISO** (isolated power) — all mapping to `PA`. See [Metrics](metrics.md) for full definitions. |
+| `PITCHING_METRICS`  | `dict[str, str]`    | Metric → weight column. Keys are pitcher acronyms — **ERA** (earned run average), **WHIP** (walks + hits per inning), **K/9** (strikeouts per 9), **BB/9** (walks per 9), **HR/9** (home runs per 9) — all mapping to `IP`. See [Metrics](metrics.md) for full definitions. |
 
 ### Example
 

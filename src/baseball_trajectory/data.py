@@ -80,6 +80,7 @@ def _load_roster(season: int) -> pl.DataFrame:
             "fullName": p.get("fullName") or "",
             "debutYear": (p.get("mlbDebutDate") or "")[:4] or None,
             "active": bool(p.get("active", False)),
+            "position": (p.get("primaryPosition") or {}).get("abbreviation") or None,
         }
         for p in people
         if p.get("id") and p.get("fullName")
@@ -93,6 +94,7 @@ def _load_roster(season: int) -> pl.DataFrame:
                 "fullName": pl.Utf8,
                 "debutYear": pl.Utf8,
                 "active": pl.Boolean,
+                "position": pl.Utf8,
             }
         )
     )
@@ -232,6 +234,7 @@ def search_player(query: str, seasons_back: int = 3) -> pl.DataFrame:
             "fullName": pl.Utf8,
             "debutYear": pl.Utf8,
             "finalYear": pl.Utf8,
+            "position": pl.Utf8,
         }
     )
     needle = (query or "").strip().lower()
@@ -262,7 +265,7 @@ def search_player(query: str, seasons_back: int = 3) -> pl.DataFrame:
                     .otherwise(pl.lit(str(season)))
                     .alias("finalYear")
                 )
-                .select(["playerID", "fullName", "debutYear", "finalYear"])
+                .select(["playerID", "fullName", "debutYear", "finalYear", "position"])
                 .head(50)
             )
 

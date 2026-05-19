@@ -29,6 +29,7 @@ nav:
   - Home: index.md
   - Getting started: getting-started.md
   - User guide: user-guide.md
+  - Metrics: metrics.md
   - Modeling approach: modeling.md
   - Methods: methods.md
   - Data sources: data.md
@@ -49,3 +50,7 @@ markdown_extensions:
   - pymdownx.superfences
   - toc:
       permalink: true
+
+plugins:
+  - search
+  - glightbox

@@ -4,3 +4,4 @@ numpy
 statsmodels
 matplotlib
 requests
+great-tables
