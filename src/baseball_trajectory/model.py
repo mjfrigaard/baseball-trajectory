@@ -54,11 +54,70 @@ def fit_player_curve(
     model = sm.WLS(y, X, weights=w).fit()
     a, b, c = (float(p) for p in model.params)
     peak_age = -b / (2 * c) if c < 0 else None
+    # The y-value at the peak is a translation-invariant property of the
+    # parabola: y_max = a - b²/(4c). Holds in centered or non-centered form.
+    max_value = a - b**2 / (4 * c) if c < 0 else None
 
     return {
         "model": model,
         "coefficients": {"intercept": a, "age": b, "age2": c},
         "peak_age": peak_age,
+        "max_value": max_value,
+        "curvature": c,
+        "r_squared": float(model.rsquared),
+        "n_seasons": int(clean.height),
+    }
+
+
+def fit_aging_curve(
+    df: pl.DataFrame,
+    y_col: str,
+    weight_col: str,
+    age_col: str = "Age",
+    center: float = 30.0,
+) -> dict | None:
+    """Fit a weighted quadratic in centered form.
+
+    Model: ``y = A + B·(Age − center) + C·(Age − center)² + ε``
+
+    The centered parameterization gives each coefficient an interpretable
+    meaning at ``Age = center``:
+
+    - ``A`` — predicted ``y_col`` at the centering age (default 30).
+    - ``B`` — slope at the centering age.
+    - ``C`` — curvature (negative for a true peak; the more negative, the
+      sharper the peak and the steeper the post-peak decline).
+
+    With ``C < 0`` the closed-form peak and max are:
+
+    - ``peak_age = center − B / (2·C)``
+    - ``max_value = A − B² / (4·C)``
+
+    Returns ``None`` when fewer than 3 non-null rows are available.
+    """
+    clean = df.drop_nulls(subset=[age_col, y_col, weight_col])
+    if clean.height < 3:
+        return None
+
+    age = clean[age_col].to_numpy().astype(float)
+    y = clean[y_col].to_numpy().astype(float)
+    w = clean[weight_col].to_numpy().astype(float)
+    age_c = age - center
+    X = np.column_stack([np.ones_like(age_c), age_c, age_c**2])
+
+    model = sm.WLS(y, X, weights=w).fit()
+    A, B, C = (float(p) for p in model.params)
+    peak_age = center - B / (2 * C) if C < 0 else None
+    max_value = A - B**2 / (4 * C) if C < 0 else None
+
+    return {
+        "model": model,
+        "A": A,
+        "B": B,
+        "C": C,
+        "center": center,
+        "peak_age": peak_age,
+        "max_value": max_value,
         "r_squared": float(model.rsquared),
         "n_seasons": int(clean.height),
     }

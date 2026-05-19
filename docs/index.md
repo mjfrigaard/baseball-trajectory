@@ -31,5 +31,6 @@ trajectory with a 95% confidence band and a marked peak age.
 - [Getting started](getting-started.md) — install and run.
 - [User guide](user-guide.md) — the full sidebar workflow.
 - [Modeling approach](modeling.md) — what the curve means.
+- [Methods](methods.md) — worked example, similarity scores, multi-player comparison.
 - [Deployment](deployment.md) — Posit Connect Cloud and other hosts.
 - [API reference](reference.md) — programmatic usage.

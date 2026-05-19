@@ -30,6 +30,7 @@ nav:
   - Getting started: getting-started.md
   - User guide: user-guide.md
   - Modeling approach: modeling.md
+  - Methods: methods.md
   - Data sources: data.md
   - Deployment: deployment.md
   - API reference: reference.md

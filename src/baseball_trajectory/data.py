@@ -50,6 +50,7 @@ def refresh_cache() -> None:
     _CACHE.clear()
     get_batting_career.cache_clear()
     get_pitching_career.cache_clear()
+    get_player_career_totals.cache_clear()
 
 
 # ---------------------------------------------------------------------------
@@ -119,6 +120,91 @@ def _get_yearby_year_splits(player_id: int, group: str) -> list[dict]:
     for sg in resp.json().get("stats", []):
         splits.extend(sg.get("splits", []))
     return splits
+
+
+def _get_career_split(player_id: int, group: str) -> dict:
+    """Fetch a single career-totals split from ``/api/v1/people/{id}/stats``."""
+    resp = _requests.get(
+        f"{_MLB_API}/people/{player_id}/stats",
+        params={"stats": "career", "group": group, "sportId": 1},
+        timeout=_TIMEOUT,
+    )
+    resp.raise_for_status()
+    for sg in resp.json().get("stats", []):
+        splits = sg.get("splits", [])
+        if splits:
+            return splits[0].get("stat", {}) or {}
+    return {}
+
+
+@functools.lru_cache(maxsize=256)
+def get_player_career_totals(player_id: str) -> dict:
+    """Return a career-totals dict for a player, suitable for similarity scoring.
+
+    Keys: ``playerID``, ``fullName``, ``G``, ``AB``, ``R``, ``H``, ``2B``,
+    ``3B``, ``HR``, ``RBI``, ``BB``, ``SO``, ``SB``, ``AVG``, ``SLG``,
+    ``POS``. Position is the player's ``primaryPosition`` abbreviation from
+    the MLB Stats API.
+
+    Two HTTP calls: ``/people/{id}`` for bio + position, and
+    ``/people/{id}/stats?stats=career&group=hitting`` for the totals.
+    Results are cached in-process via ``lru_cache``; clear with
+    ``refresh_cache()``.
+    """
+    pid = int(player_id)
+    try:
+        person = _get_person(pid)
+    except Exception as exc:
+        print(
+            f"[baseball-trajectory] _get_person({pid}) raised "
+            f"{type(exc).__name__}: {exc}",
+            file=sys.stderr,
+        )
+        person = {}
+    pos = (person.get("primaryPosition") or {}).get("abbreviation", "") or ""
+
+    try:
+        stat = _get_career_split(pid, "hitting")
+    except Exception as exc:
+        print(
+            f"[baseball-trajectory] career stats for {pid} failed: {exc}",
+            file=sys.stderr,
+        )
+        stat = {}
+
+    def _i(key: str) -> int:
+        v = stat.get(key)
+        try:
+            return int(v) if v is not None else 0
+        except (TypeError, ValueError):
+            return 0
+
+    h = _i("hits")
+    ab = _i("atBats")
+    d2 = _i("doubles")
+    d3 = _i("triples")
+    hr = _i("homeRuns")
+    avg = h / ab if ab > 0 else 0.0
+    slg = (h + d2 + 2 * d3 + 3 * hr) / ab if ab > 0 else 0.0
+
+    return {
+        "playerID": str(pid),
+        "fullName": person.get("fullName", ""),
+        "G": _i("gamesPlayed"),
+        "AB": ab,
+        "R": _i("runs"),
+        "H": h,
+        "2B": d2,
+        "3B": d3,
+        "HR": hr,
+        "RBI": _i("rbi"),
+        "BB": _i("baseOnBalls"),
+        "SO": _i("strikeOuts"),
+        "SB": _i("stolenBases"),
+        "AVG": avg,
+        "SLG": slg,
+        "POS": pos,
+    }
 
 
 # ---------------------------------------------------------------------------

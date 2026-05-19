@@ -14,6 +14,7 @@ Player search and per-player career queries.
 | `search_player(query, seasons_back=3)`         | `pl.DataFrame`  | Substring-match player names against cached MLB rosters. Walks `seasons_back+1` rosters from the current season backward, returning on the first season with matches. Up to 50 rows. |
 | `get_batting_career(player_id)`                | `pl.DataFrame`  | Per-season batting career: `Season`, `Age`, `PA`, `AB`, `H`, `HR`, `AVG`, `OBP`, `SLG`, `OPS`, `ISO`, `BB%`, `K%`. Multi-team seasons aggregated. |
 | `get_pitching_career(player_id)`               | `pl.DataFrame`  | Per-season pitching career: `Season`, `Age`, `IP`, `ERA`, `WHIP`, `K/9`, `BB/9`, `HR/9`, `W`, `L`, `SO`, `BB`. |
+| `get_player_career_totals(player_id)`          | `dict`          | Career batting totals + primary position. Keys: `playerID`, `fullName`, `G`, `AB`, `R`, `H`, `2B`, `3B`, `HR`, `RBI`, `BB`, `SO`, `SB`, `AVG`, `SLG`, `POS`. Suitable as input to similarity scoring. |
 | `refresh_cache()`                              | `None`          | Clear the in-memory roster and career caches.                                                                    |
 
 `player_id` is the MLB integer player ID stored as a string (e.g.
@@ -39,7 +40,8 @@ Aging-curve fit and summaries.
 
 | Function                                                | Returns          | Description                                                                                                       |
 | ------------------------------------------------------- | ---------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `fit_player_curve(df, y_col, weight_col, age_col="Age")` | `dict \| None`   | Weighted quadratic fit. Returns `None` if fewer than 3 valid rows. The dict has `model`, `coefficients` (`intercept`, `age`, `age2`), `peak_age`, `r_squared`, `n_seasons`. |
+| `fit_player_curve(df, y_col, weight_col, age_col="Age")` | `dict \| None`   | Weighted quadratic fit (non-centered). Returns `None` if fewer than 3 valid rows. Dict has `model`, `coefficients` (`intercept`, `age`, `age2`), `peak_age`, `max_value`, `curvature`, `r_squared`, `n_seasons`. |
+| `fit_aging_curve(df, y_col, weight_col, age_col="Age", center=30.0)` | `dict \| None` | Centered-form quadratic fit: `y = A + B·(Age−center) + C·(Age−center)²`. Returns interpretable `A`, `B`, `C` plus `peak_age`, `max_value`. See [Methods](methods.md#centered-form-r-style-interpretation). |
 | `predict_curve(fit, ages)`                              | `pl.DataFrame`   | Predictions over an age grid with 95% CI: columns `Age`, `predicted`, `ci_low`, `ci_high`.                       |
 | `summarize_career(df, y_col, weight_col)`               | `dict`           | Career summary: `weighted_mean`, `best_season`, `peak_age`, `total_weight`. Native Python types (no Polars scalars). |
 | `is_lower_better(metric)`                               | `bool`           | `True` for ERA, WHIP, BB/9, HR/9.                                                                                |
@@ -66,6 +68,25 @@ ages = np.linspace(career["Age"].min(), career["Age"].max(), 100)
 predictions = predict_curve(fit, ages)
 ```
 
+## `baseball_trajectory.similarity`
+
+Bill James similarity scores. Pure-Polars, no network I/O — see
+[Methods → Bill James similarity scores](methods.md#comparing-players-bill-james-similarity-scores).
+
+### Functions
+
+| Function                                       | Returns         | Description                                                                                          |
+| ---------------------------------------------- | --------------- | ---------------------------------------------------------------------------------------------------- |
+| `position_value(pos)`                          | `int`           | Bill James position value (`C`=240, `SS`=168, `2B`=132, `3B`=84, `OF`=48, `1B`=12, others=0).        |
+| `similarity_score(player, other, use_position=True)` | `int`     | Bill James score between two career-totals dicts. 1000 = identical careers.                          |
+| `find_similar_players(target, candidates, n=10, use_position=True)` | `pl.DataFrame` | Rank candidates by score against `target`. Returns top `n` with an added `sim_score` column. |
+
+### Constants
+
+| Name              | Type              | Description                                                                       |
+| ----------------- | ----------------- | --------------------------------------------------------------------------------- |
+| `POSITION_VALUE`  | `dict[str, int]`  | Bill James position value table keyed by MLB position abbreviation.               |
+
 ## `baseball_trajectory.plots`
 
 Matplotlib trajectory chart.
@@ -75,6 +96,8 @@ Matplotlib trajectory chart.
 | Function                                                                          | Returns                       | Description                                                                                                |
 | --------------------------------------------------------------------------------- | ----------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | `plot_trajectory(df, fit, y_col, weight_col, player_name, lower_better=False)`    | `matplotlib.figure.Figure`    | Scatter of seasons (sized by weight) plus the fitted curve, 95% CI ribbon, and peak-age line.              |
+| `plot_trajectories_facet(careers_by_name, y_col, age_col="Age", ncol=2, lower_better=False)` | `matplotlib.figure.Figure` | Small-multiples comparison: each player on their own panel with raw seasons + a quadratic fit. |
+| `plot_peak_vs_curvature(fits_by_name)`                                            | `matplotlib.figure.Figure`    | Labeled scatter of fitted peak age vs curvature. Useful for summarizing a comparison group at a glance.    |
 | `plot_empty(message)`                                                             | `matplotlib.figure.Figure`    | Blank figure with a centered placeholder message.                                                          |
 
 ### Example
