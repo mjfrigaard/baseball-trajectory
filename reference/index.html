@@ -344,6 +344,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../methods/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Methods
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../data/" class="md-nav__link">
         
   
@@ -547,6 +574,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#baseball_trajectorysimilarity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        baseball_trajectory.similarity
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="baseball_trajectory.similarity">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constants_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constants
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#baseball_trajectoryplots" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -559,7 +625,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#functions_2" class="md-nav__link">
+  <a href="#functions_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         Functions
@@ -736,6 +802,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#baseball_trajectorysimilarity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        baseball_trajectory.similarity
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="baseball_trajectory.similarity">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constants_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constants
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#baseball_trajectoryplots" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -748,7 +853,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#functions_2" class="md-nav__link">
+  <a href="#functions_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         Functions
@@ -822,6 +927,11 @@ Everything below is importable from <code>baseball_trajectory</code>.</p>
 <td>Per-season pitching career: <code>Season</code>, <code>Age</code>, <code>IP</code>, <code>ERA</code>, <code>WHIP</code>, <code>K/9</code>, <code>BB/9</code>, <code>HR/9</code>, <code>W</code>, <code>L</code>, <code>SO</code>, <code>BB</code>.</td>
 </tr>
 <tr>
+<td><code>get_player_career_totals(player_id)</code></td>
+<td><code>dict</code></td>
+<td>Career batting totals + primary position. Keys: <code>playerID</code>, <code>fullName</code>, <code>G</code>, <code>AB</code>, <code>R</code>, <code>H</code>, <code>2B</code>, <code>3B</code>, <code>HR</code>, <code>RBI</code>, <code>BB</code>, <code>SO</code>, <code>SB</code>, <code>AVG</code>, <code>SLG</code>, <code>POS</code>. Suitable as input to similarity scoring.</td>
+</tr>
+<tr>
 <td><code>refresh_cache()</code></td>
 <td><code>None</code></td>
 <td>Clear the in-memory roster and career caches.</td>
@@ -854,7 +964,12 @@ Everything below is importable from <code>baseball_trajectory</code>.</p>
 <tr>
 <td><code>fit_player_curve(df, y_col, weight_col, age_col="Age")</code></td>
 <td><code>dict \| None</code></td>
-<td>Weighted quadratic fit. Returns <code>None</code> if fewer than 3 valid rows. The dict has <code>model</code>, <code>coefficients</code> (<code>intercept</code>, <code>age</code>, <code>age2</code>), <code>peak_age</code>, <code>r_squared</code>, <code>n_seasons</code>.</td>
+<td>Weighted quadratic fit (non-centered). Returns <code>None</code> if fewer than 3 valid rows. Dict has <code>model</code>, <code>coefficients</code> (<code>intercept</code>, <code>age</code>, <code>age2</code>), <code>peak_age</code>, <code>max_value</code>, <code>curvature</code>, <code>r_squared</code>, <code>n_seasons</code>.</td>
+</tr>
+<tr>
+<td><code>fit_aging_curve(df, y_col, weight_col, age_col="Age", center=30.0)</code></td>
+<td><code>dict \| None</code></td>
+<td>Centered-form quadratic fit: <code>y = A + B·(Age−center) + C·(Age−center)²</code>. Returns interpretable <code>A</code>, <code>B</code>, <code>C</code> plus <code>peak_age</code>, <code>max_value</code>. See <a href="../methods/#centered-form-r-style-interpretation">Methods</a>.</td>
 </tr>
 <tr>
 <td><code>predict_curve(fit, ages)</code></td>
@@ -907,9 +1022,56 @@ Everything below is importable from <code>baseball_trajectory</code>.</p>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="n">ages</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">career</span><span class="p">[</span><span class="s2">&quot;Age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">career</span><span class="p">[</span><span class="s2">&quot;Age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">100</span><span class="p">)</span>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="n">predictions</span> <span class="o">=</span> <span class="n">predict_curve</span><span class="p">(</span><span class="n">fit</span><span class="p">,</span> <span class="n">ages</span><span class="p">)</span>
 </code></pre></div>
+<h2 id="baseball_trajectorysimilarity"><code>baseball_trajectory.similarity</code><a class="headerlink" href="#baseball_trajectorysimilarity" title="Permanent link">&para;</a></h2>
+<p>Bill James similarity scores. Pure-Polars, no network I/O — see
+<a href="../methods/#comparing-players-bill-james-similarity-scores">Methods → Bill James similarity scores</a>.</p>
+<h3 id="functions_2">Functions<a class="headerlink" href="#functions_2" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>position_value(pos)</code></td>
+<td><code>int</code></td>
+<td>Bill James position value (<code>C</code>=240, <code>SS</code>=168, <code>2B</code>=132, <code>3B</code>=84, <code>OF</code>=48, <code>1B</code>=12, others=0).</td>
+</tr>
+<tr>
+<td><code>similarity_score(player, other, use_position=True)</code></td>
+<td><code>int</code></td>
+<td>Bill James score between two career-totals dicts. 1000 = identical careers.</td>
+</tr>
+<tr>
+<td><code>find_similar_players(target, candidates, n=10, use_position=True)</code></td>
+<td><code>pl.DataFrame</code></td>
+<td>Rank candidates by score against <code>target</code>. Returns top <code>n</code> with an added <code>sim_score</code> column.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="constants_1">Constants<a class="headerlink" href="#constants_1" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POSITION_VALUE</code></td>
+<td><code>dict[str, int]</code></td>
+<td>Bill James position value table keyed by MLB position abbreviation.</td>
+</tr>
+</tbody>
+</table>
 <h2 id="baseball_trajectoryplots"><code>baseball_trajectory.plots</code><a class="headerlink" href="#baseball_trajectoryplots" title="Permanent link">&para;</a></h2>
 <p>Matplotlib trajectory chart.</p>
-<h3 id="functions_2">Functions<a class="headerlink" href="#functions_2" title="Permanent link">&para;</a></h3>
+<h3 id="functions_3">Functions<a class="headerlink" href="#functions_3" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -923,6 +1085,16 @@ Everything below is importable from <code>baseball_trajectory</code>.</p>
 <td><code>plot_trajectory(df, fit, y_col, weight_col, player_name, lower_better=False)</code></td>
 <td><code>matplotlib.figure.Figure</code></td>
 <td>Scatter of seasons (sized by weight) plus the fitted curve, 95% CI ribbon, and peak-age line.</td>
+</tr>
+<tr>
+<td><code>plot_trajectories_facet(careers_by_name, y_col, age_col="Age", ncol=2, lower_better=False)</code></td>
+<td><code>matplotlib.figure.Figure</code></td>
+<td>Small-multiples comparison: each player on their own panel with raw seasons + a quadratic fit.</td>
+</tr>
+<tr>
+<td><code>plot_peak_vs_curvature(fits_by_name)</code></td>
+<td><code>matplotlib.figure.Figure</code></td>
+<td>Labeled scatter of fitted peak age vs curvature. Useful for summarizing a comparison group at a glance.</td>
 </tr>
 <tr>
 <td><code>plot_empty(message)</code></td>
