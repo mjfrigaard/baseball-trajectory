@@ -8,10 +8,10 @@
       
       
       
-        <link rel="prev" href="../metrics/">
+        <link rel="prev" href="../user-guide/">
       
       
-        <link rel="next" href="../methods/">
+        <link rel="next" href="../modeling/">
       
       
         
@@ -22,7 +22,7 @@
     
     
       
-        <title>Modeling approach - baseball-trajectory</title>
+        <title>Metrics - baseball-trajectory</title>
       
     
     
@@ -83,7 +83,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#modeling-approach" class="md-skip">
+        <a href="#metrics" class="md-skip">
           Skip to content
         </a>
       
@@ -119,7 +119,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Modeling approach
+              Metrics
             
           </span>
         </div>
@@ -321,33 +321,6 @@
       
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../metrics/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Metrics
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
     
   
   
@@ -367,7 +340,7 @@
   <span class="md-ellipsis">
     
   
-    Modeling approach
+    Metrics
   
 
     
@@ -385,7 +358,7 @@
   <span class="md-ellipsis">
     
   
-    Modeling approach
+    Metrics
   
 
     
@@ -411,65 +384,193 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#the-model" class="md-nav__link">
+  <a href="#batting-metrics" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The model
+        Batting metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Batting metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#avg-batting-average" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AVG — Batting average
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#why-weighted" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#obp-on-base-percentage" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why weighted
+        OBP — On-base percentage
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#peak-age" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#slg-slugging-percentage" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Peak age
+        SLG — Slugging percentage
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#confidence-band" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#ops-on-base-slugging" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Confidence band
+        OPS — On-base + Slugging
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#career-summary" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#hr-home-runs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Career summary
+        HR — Home runs
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#assumptions-and-caveats" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#iso-isolated-power" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Assumptions and caveats
+        ISO — Isolated power
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pitching-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pitching metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pitching metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#era-earned-run-average" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ERA — Earned run average
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#whip-walks-hits-per-inning-pitched" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WHIP — Walks + Hits per Inning Pitched
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#k9-strikeouts-per-9-innings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        K/9 — Strikeouts per 9 innings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bb9-walks-per-9-innings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BB/9 — Walks per 9 innings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hr9-home-runs-per-9-innings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HR/9 — Home runs per 9 innings
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#min-pa-ip-per-season" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Min PA / IP per season
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Min PA / IP per season">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-thresholds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common thresholds
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See also
       
     </span>
   </a>
@@ -480,6 +581,33 @@
   
 </nav>
       
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modeling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modeling approach
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -646,65 +774,193 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#the-model" class="md-nav__link">
+  <a href="#batting-metrics" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The model
+        Batting metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Batting metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#avg-batting-average" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AVG — Batting average
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#why-weighted" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#obp-on-base-percentage" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why weighted
+        OBP — On-base percentage
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#peak-age" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#slg-slugging-percentage" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Peak age
+        SLG — Slugging percentage
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#confidence-band" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#ops-on-base-slugging" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Confidence band
+        OPS — On-base + Slugging
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#career-summary" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#hr-home-runs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Career summary
+        HR — Home runs
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#assumptions-and-caveats" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#iso-isolated-power" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Assumptions and caveats
+        ISO — Isolated power
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pitching-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pitching metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pitching metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#era-earned-run-average" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ERA — Earned run average
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#whip-walks-hits-per-inning-pitched" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WHIP — Walks + Hits per Inning Pitched
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#k9-strikeouts-per-9-innings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        K/9 — Strikeouts per 9 innings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bb9-walks-per-9-innings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BB/9 — Walks per 9 innings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hr9-home-runs-per-9-innings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HR/9 — Home runs per 9 innings
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#min-pa-ip-per-season" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Min PA / IP per season
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Min PA / IP per season">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-thresholds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common thresholds
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See also
       
     </span>
   </a>
@@ -728,74 +984,412 @@
 
 
 
-<h1 id="modeling-approach">Modeling approach<a class="headerlink" href="#modeling-approach" title="Permanent link">¶</a></h1>
-<p>The app fits a single-metric <strong>weighted quadratic aging curve</strong> for
-each player.</p>
-<h2 id="the-model">The model<a class="headerlink" href="#the-model" title="Permanent link">¶</a></h2>
-<p>For seasons indexed by Age, weighted by playing time:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>y = β₀ + β₁·Age + β₂·Age² + ε
+<h1 id="metrics">Metrics<a class="headerlink" href="#metrics" title="Permanent link">¶</a></h1>
+<p>Reference for every stat the app can plot, plus the <strong>Min PA / IP</strong>
+knob that filters per-season data before the curve is fit. All
+formulas use the abbreviations as they appear in the underlying MLB
+Stats API.</p>
+<h2 id="batting-metrics">Batting metrics<a class="headerlink" href="#batting-metrics" title="Permanent link">¶</a></h2>
+<p>For batters, the <strong>weight column</strong> in the weighted least-squares fit
+is PA (plate appearances). Anchor points below are full-season values
+for full-time players.</p>
+<h3 id="avg-batting-average">AVG — Batting average<a class="headerlink" href="#avg-batting-average" title="Permanent link">¶</a></h3>
+<p>Hits per at-bat:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>AVG = H / AB
 </code></pre></div>
-<p>Implementation: <code>statsmodels.api.WLS(y, X, weights=w).fit()</code>, with
-weights equal to PA (batters) or IP (pitchers). Seasons with more
-playing time pull the curve harder than partial seasons.</p>
-<h2 id="why-weighted">Why weighted<a class="headerlink" href="#why-weighted" title="Permanent link">¶</a></h2>
-<p>A 90-PA September call-up and a 700-PA full season carry the same
-arithmetic information to ordinary least squares, but they're not
-equally informative about the player's true ability. Weighting by PA
-pushes the fit toward seasons that contain more signal.</p>
-<h2 id="peak-age">Peak age<a class="headerlink" href="#peak-age" title="Permanent link">¶</a></h2>
-<p>When β₂ &lt; 0 the parabola opens downward and there's a real maximum.
-Setting the derivative to zero gives the peak age in closed form:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Age* = -β₁ / (2·β₂)
-</code></pre></div>
-<p>That's the value the app marks with a dashed vertical line and labels
-<em>Peak: ##.#</em>.</p>
-<p>When β₂ ≥ 0 the curve is flat or concave-up — usually a sign of an
-unfinished or unusual career — and the peak marker is suppressed.</p>
-<h2 id="confidence-band">Confidence band<a class="headerlink" href="#confidence-band" title="Permanent link">¶</a></h2>
-<p><code>get_prediction(X).summary_frame(alpha=0.05)</code> produces a 95% mean
-prediction interval at each input age. The shaded ribbon spans
-<code>mean_ci_lower</code> to <code>mean_ci_upper</code>. It widens at the edges of the
-career, where fewer seasons constrain the fit.</p>
-<h2 id="career-summary">Career summary<a class="headerlink" href="#career-summary" title="Permanent link">¶</a></h2>
-<p><code>summarize_career()</code> returns:</p>
+<p>A decimal between 0 and 1.</p>
 <table>
 <thead>
 <tr>
-<th>Field</th>
-<th>What it is</th>
+<th>Range</th>
+<th>Read</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>weighted_mean</code></td>
-<td>Career rate stat, weighted by the same PA/IP as the fit.</td>
+<td><code>.300+</code></td>
+<td>Excellent</td>
 </tr>
 <tr>
-<td><code>best_season</code></td>
-<td>The season with the highest <code>y_col</code> (Season, Age, value).</td>
+<td><code>.275</code></td>
+<td>Solid regular</td>
 </tr>
 <tr>
-<td><code>peak_age</code></td>
-<td>Closed-form peak from the fit (or <code>None</code> if non-concave).</td>
+<td><code>.250</code></td>
+<td>Average MLB hitter</td>
 </tr>
 <tr>
-<td><code>total_weight</code></td>
-<td>Career total of PA or IP.</td>
+<td><code>.220</code></td>
+<td>Below average</td>
 </tr>
 </tbody>
 </table>
-<p>The one-row summary table in the UI is built from this dict.</p>
-<h2 id="assumptions-and-caveats">Assumptions and caveats<a class="headerlink" href="#assumptions-and-caveats" title="Permanent link">¶</a></h2>
+<h3 id="obp-on-base-percentage">OBP — On-base percentage<a class="headerlink" href="#obp-on-base-percentage" title="Permanent link">¶</a></h3>
+<p>Fraction of plate appearances where the batter reached base by hit,
+walk, or hit-by-pitch:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>OBP = (H + BB + HBP) / (AB + BB + HBP + SF)
+</code></pre></div>
+<p>Where <code>SF</code> = sacrifice flies. OBP excludes errors and fielder's
+choices.</p>
+<table>
+<thead>
+<tr>
+<th>Range</th>
+<th>Read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.400+</code></td>
+<td>Elite</td>
+</tr>
+<tr>
+<td><code>.360</code></td>
+<td>All-Star</td>
+</tr>
+<tr>
+<td><code>.330</code></td>
+<td>Solid regular</td>
+</tr>
+<tr>
+<td><code>.300</code></td>
+<td>Below average</td>
+</tr>
+</tbody>
+</table>
+<h3 id="slg-slugging-percentage">SLG — Slugging percentage<a class="headerlink" href="#slg-slugging-percentage" title="Permanent link">¶</a></h3>
+<p>Total bases gained per at-bat. A double counts as 2, a triple as 3, a
+home run as 4:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>SLG = (1B + 2·2B + 3·3B + 4·HR) / AB
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Range</th>
+<th>Read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.500+</code></td>
+<td>Power hitter</td>
+</tr>
+<tr>
+<td><code>.450</code></td>
+<td>Strong power</td>
+</tr>
+<tr>
+<td><code>.400</code></td>
+<td>Average</td>
+</tr>
+<tr>
+<td><code>.350</code></td>
+<td>Limited power</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ops-on-base-slugging">OPS — On-base + Slugging<a class="headerlink" href="#ops-on-base-slugging" title="Permanent link">¶</a></h3>
+<p>The sum of OBP and SLG. The single most-used summary of offensive
+value:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>OPS = OBP + SLG
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Range</th>
+<th>Read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.900+</code></td>
+<td>All-Star tier</td>
+</tr>
+<tr>
+<td><code>.800</code></td>
+<td>Above average</td>
+</tr>
+<tr>
+<td><code>.700</code></td>
+<td>Average</td>
+</tr>
+<tr>
+<td><code>.600</code></td>
+<td>Below average</td>
+</tr>
+</tbody>
+</table>
+<h3 id="hr-home-runs">HR — Home runs<a class="headerlink" href="#hr-home-runs" title="Permanent link">¶</a></h3>
+<p>The count of home runs in a season — a raw total, not a rate stat.
+The curve fits this against age directly.</p>
+<table>
+<thead>
+<tr>
+<th>Range</th>
+<th>Read (full season)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>40+</code></td>
+<td>Elite power</td>
+</tr>
+<tr>
+<td><code>30</code></td>
+<td>Power hitter</td>
+</tr>
+<tr>
+<td><code>20</code></td>
+<td>Full-time regular</td>
+</tr>
+<tr>
+<td><code>10</code></td>
+<td>Part-time / contact</td>
+</tr>
+</tbody>
+</table>
+<h3 id="iso-isolated-power">ISO — Isolated power<a class="headerlink" href="#iso-isolated-power" title="Permanent link">¶</a></h3>
+<p>Pure extra-base power, with singles' contribution removed:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>ISO = SLG − AVG
+</code></pre></div>
+<p>A batter who hits only singles has SLG = AVG and therefore ISO = 0.</p>
+<table>
+<thead>
+<tr>
+<th>Range</th>
+<th>Read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.250+</code></td>
+<td>Elite power</td>
+</tr>
+<tr>
+<td><code>.200</code></td>
+<td>Power threat</td>
+</tr>
+<tr>
+<td><code>.150</code></td>
+<td>Average</td>
+</tr>
+<tr>
+<td><code>.100</code></td>
+<td>Light power</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pitching-metrics">Pitching metrics<a class="headerlink" href="#pitching-metrics" title="Permanent link">¶</a></h2>
+<p>For pitchers, the weight column is IP (innings pitched). All per-9
+rates multiply by 9 to extrapolate to a full game's worth of innings.</p>
+<h3 id="era-earned-run-average">ERA — Earned run average<a class="headerlink" href="#era-earned-run-average" title="Permanent link">¶</a></h3>
+<p>Earned runs allowed per 9 innings:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>ERA = 9 × ER / IP
+</code></pre></div>
+<p>Where <code>ER</code> excludes runs that scored after a fielding error. <strong>Lower
+is better.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Range</th>
+<th>Read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;2.00</code></td>
+<td>Cy Young tier</td>
+</tr>
+<tr>
+<td><code>3.00</code></td>
+<td>All-Star</td>
+</tr>
+<tr>
+<td><code>4.00</code></td>
+<td>Solid regular</td>
+</tr>
+<tr>
+<td><code>5.00+</code></td>
+<td>Below average</td>
+</tr>
+</tbody>
+</table>
+<h3 id="whip-walks-hits-per-inning-pitched">WHIP — Walks + Hits per Inning Pitched<a class="headerlink" href="#whip-walks-hits-per-inning-pitched" title="Permanent link">¶</a></h3>
+<p>Baserunners allowed per inning:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>WHIP = (BB + H) / IP
+</code></pre></div>
+<p><strong>Lower is better.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Range</th>
+<th>Read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;1.00</code></td>
+<td>Elite</td>
+</tr>
+<tr>
+<td><code>1.20</code></td>
+<td>All-Star</td>
+</tr>
+<tr>
+<td><code>1.30</code></td>
+<td>Solid regular</td>
+</tr>
+<tr>
+<td><code>1.40+</code></td>
+<td>Below average</td>
+</tr>
+</tbody>
+</table>
+<h3 id="k9-strikeouts-per-9-innings">K/9 — Strikeouts per 9 innings<a class="headerlink" href="#k9-strikeouts-per-9-innings" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>K/9 = 9 × K / IP
+</code></pre></div>
+<p><strong>Higher is better.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Range</th>
+<th>Read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>11+</code></td>
+<td>Power pitcher</td>
+</tr>
+<tr>
+<td><code>9.0</code></td>
+<td>Strong</td>
+</tr>
+<tr>
+<td><code>7.0</code></td>
+<td>Average</td>
+</tr>
+<tr>
+<td><code>5.0</code></td>
+<td>Contact pitcher</td>
+</tr>
+</tbody>
+</table>
+<h3 id="bb9-walks-per-9-innings">BB/9 — Walks per 9 innings<a class="headerlink" href="#bb9-walks-per-9-innings" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>BB/9 = 9 × BB / IP
+</code></pre></div>
+<p><strong>Lower is better</strong> (better control).</p>
+<table>
+<thead>
+<tr>
+<th>Range</th>
+<th>Read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;2.0</code></td>
+<td>Elite control</td>
+</tr>
+<tr>
+<td><code>2.5</code></td>
+<td>Strong</td>
+</tr>
+<tr>
+<td><code>3.5</code></td>
+<td>Average</td>
+</tr>
+<tr>
+<td><code>5.0+</code></td>
+<td>Wild</td>
+</tr>
+</tbody>
+</table>
+<h3 id="hr9-home-runs-per-9-innings">HR/9 — Home runs per 9 innings<a class="headerlink" href="#hr9-home-runs-per-9-innings" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>HR/9 = 9 × HR / IP
+</code></pre></div>
+<p><strong>Lower is better.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Range</th>
+<th>Read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;0.8</code></td>
+<td>Elite</td>
+</tr>
+<tr>
+<td><code>1.0</code></td>
+<td>Strong</td>
+</tr>
+<tr>
+<td><code>1.2</code></td>
+<td>Average</td>
+</tr>
+<tr>
+<td><code>1.5+</code></td>
+<td>Homer-prone</td>
+</tr>
+</tbody>
+</table>
+<h2 id="min-pa-ip-per-season">Min PA / IP per season<a class="headerlink" href="#min-pa-ip-per-season" title="Permanent link">¶</a></h2>
+<p>The <strong>Min PA / IP per season</strong> knob in the sidebar drops per-season
+rows from the curve fit when they fall below a minimum playing-time
+threshold. The unit follows the <strong>Position</strong> toggle:</p>
 <ul>
-<li><strong>A single quadratic shape</strong> describes the arc. Bimodal arcs
-  (injury-recovery careers, mid-career position changes,
-  knuckleballers) won't be modeled well.</li>
-<li><strong>Weights are exogenous.</strong> A manager who benches a struggling player
-  reduces their PA, which biases the fit slightly toward years the
-  player was healthy and effective.</li>
-<li><strong>No era adjustments.</strong> A 1908 OPS is treated the same as a 2019
-  OPS. See <a href="../limitations/">Limitations</a> for more.</li>
+<li><strong>PA (plate appearances)</strong> when <em>Position</em> is <em>Batter</em>.</li>
+<li><strong>IP (innings pitched)</strong> when <em>Position</em> is <em>Pitcher</em>.</li>
+</ul>
+<p>It exists because a 50-PA September call-up or a 20-IP injury year
+carries almost no signal about a player's true ability. A weighted
+quadratic fit will still treat such a row as a data point (lightly
+weighted, but present), and very-low-weight seasons can drag the fit
+when they're outliers. Setting a minimum drops those rows entirely.</p>
+<h3 id="common-thresholds">Common thresholds<a class="headerlink" href="#common-thresholds" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>What it represents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>502 PA</code></td>
+<td>The official batting-title qualification (3.1 PA × games scheduled).</td>
+</tr>
+<tr>
+<td><code>162 IP</code></td>
+<td>The official ERA-title qualification (1 IP × games scheduled).</td>
+</tr>
+<tr>
+<td><code>300 PA</code> / <code>100 IP</code></td>
+<td>Typical "full-time regular" lower bound.</td>
+</tr>
+<tr>
+<td><code>100</code></td>
+<td>The default; keeps most non-trivial seasons.</td>
+</tr>
+<tr>
+<td><code>0</code></td>
+<td>Disables the filter — every season counts toward the fit.</td>
+</tr>
+</tbody>
+</table>
+<p>For a player whose role changed substantially over time
+(starter-turned-reliever, regular-turned-bench), tuning this knob up
+to focus on their prime role often gives a cleaner curve. For a young
+player with only a few full seasons, tune it down to include
+near-rookie years.</p>
+<h2 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">¶</a></h2>
+<ul>
+<li><a href="../modeling/">Modeling approach</a> — how the quadratic fit uses these
+  metrics as the response variable, and how weights are applied.</li>
+<li><a href="../methods/">Methods</a> — worked example using OPS for Mickey Mantle,
+  with the centered-form interpretation.</li>
 </ul>
 
 
