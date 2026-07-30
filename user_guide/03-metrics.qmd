@@ -1,4 +1,7 @@
-# Metrics
+---
+title: "Metrics"
+guide-section: "Reference"
+---
 
 Reference for every stat the app can plot, plus the **Min PA / IP**
 knob that filters per-season data before the curve is fit. All
@@ -85,7 +88,7 @@ The count of home runs in a season — a raw total, not a rate stat.
 The curve fits this against age directly.
 
 | Range  | Read (full season) |
-| ------ | ------------------ |
+| ------ | ------------------- |
 | `40+`  | Elite power        |
 | `30`   | Power hitter       |
 | `20`   | Full-time regular  |
@@ -211,7 +214,7 @@ when they're outliers. Setting a minimum drops those rows entirely.
 ### Common thresholds
 
 | Value     | What it represents                                                            |
-| --------- | ----------------------------------------------------------------------------- |
+| --------- | ------------------------------------------------------------------------------ |
 | `502 PA`  | The official batting-title qualification (3.1 PA × games scheduled).          |
 | `162 IP`  | The official ERA-title qualification (1 IP × games scheduled).                |
 | `300 PA` / `100 IP` | Typical "full-time regular" lower bound.                            |
@@ -226,7 +229,7 @@ near-rookie years.
 
 ## See also
 
-- [Modeling approach](modeling.md) — how the quadratic fit uses these
+- [Modeling approach](04-modeling.qmd) — how the quadratic fit uses these
   metrics as the response variable, and how weights are applied.
-- [Methods](methods.md) — worked example using OPS for Mickey Mantle,
+- [Methods](05-methods.qmd) — worked example using OPS for Mickey Mantle,
   with the centered-form interpretation.

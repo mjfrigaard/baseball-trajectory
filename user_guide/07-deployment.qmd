@@ -1,4 +1,7 @@
-# Deployment
+---
+title: "Deployment"
+guide-section: "Deployment"
+---
 
 The app is a standard Shiny for Python application — it can run
 anywhere Shiny apps run. This page covers the supported targets.
@@ -31,7 +34,7 @@ Two files at the repo root make the project deployable to
 [Posit Connect Cloud](https://connect.posit.cloud/) out of the box:
 
 | File                | Role                                                                                                         |
-| ------------------- | ------------------------------------------------------------------------------------------------------------ |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | `requirements.txt`  | Connect Cloud's installer reads only this file. It does not run `pip install -e .` against `pyproject.toml`. |
 | `app.py` (root)     | Deployment shim. Adds `src/` to `sys.path` and re-exports the Shiny `app` so Connect Cloud's primary-file mechanism finds it. |
 
@@ -87,7 +90,7 @@ primary file. Local development uses the console script
 touches the root shim.
 
 | File                                | Role                                                            |
-| ----------------------------------- | --------------------------------------------------------------- |
+| -------------------------------------- | ------------------------------------------------------------------ |
 | `src/baseball_trajectory/app.py`    | Real Shiny UI + server code.                                    |
 | `app.py` (root)                     | Adds `src/` to `sys.path` and re-exports `app`. Used by Connect Cloud and `shiny run app.py`. |
 
@@ -119,5 +122,5 @@ CMD ["shiny", "run", "--host", "0.0.0.0", "--port", "8000", "app.py"]
 
 ## Documentation site
 
-The docs themselves deploy to GitHub Pages — covered in the
-**Publishing** section of the README.
+The docs themselves deploy to GitHub Pages via `great-docs
+setup-github-pages` — see the **Publishing** section of the README.

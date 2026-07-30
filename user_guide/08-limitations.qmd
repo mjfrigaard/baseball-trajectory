@@ -1,4 +1,7 @@
-# Limitations
+---
+title: "Limitations"
+guide-section: "Deployment"
+---
 
 Known behaviours of this app and where they come from.
 

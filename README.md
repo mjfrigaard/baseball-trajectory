@@ -15,7 +15,20 @@ inning pitched), K/9 (strikeouts per 9 innings), BB/9 (walks per 9
 innings), HR/9 (home runs per 9 innings). Lower is better for ERA,
 WHIP, BB/9, and HR/9.
 
-See `docs/metrics.md` for full definitions, formulas, and benchmarks.
+See `user_guide/03-metrics.qmd` for full definitions, formulas, and benchmarks.
+
+![baseball-trajectory landing page](assets/landing-page.png)
+
+## What you can do
+
+- See when a player peaked, how steeply they declined, and how well a
+  smooth curve fits across seasons.
+- Compare a player on any of the metrics listed above.
+- Look up active players via fast typeahead, or recently-retired
+  players via a deeper search.
+- Filter out cups-of-coffee seasons with the *Min PA / IP* knob
+  (minimum plate appearances for batters or innings pitched for
+  pitchers).
 
 ## Install
 
@@ -130,7 +143,8 @@ baseball-trajectory/
 ├── app.py                  # Connect Cloud primary-file shim
 ├── README.md
 ├── .gitignore
-├── mkdocs.yml              # docs site config
+├── great-docs.yml          # docs site config
+├── assets/                 # README-only images (landing page screenshot)
 ├── src/
 │   └── baseball_trajectory/
 │       ├── __init__.py     # version
@@ -139,7 +153,7 @@ baseball-trajectory/
 │       ├── model.py        # WLS aging-curve fit + summaries
 │       ├── plots.py        # matplotlib trajectory chart
 │       └── app.py          # Shiny UI + server
-├── docs/                   # MkDocs sources
+├── user_guide/              # Great Docs narrative sources (.qmd)
 ├── tests/
 │   ├── __init__.py
 │   └── test_model.py
@@ -151,27 +165,28 @@ baseball-trajectory/
 ## Documentation
 
 Full user docs (Getting started, User guide, Modeling approach, Data
-sources, API reference, Limitations) live under `docs/` and are built
-with [MkDocs](https://www.mkdocs.org/) +
-[Material](https://squidfunk.github.io/mkdocs-material/).
+sources, API reference, Limitations) live under `user_guide/` and are
+built with [Great Docs](https://posit-dev.github.io/great-docs/),
+which also auto-generates the API reference from docstrings and turns
+this README into the site's landing page.
 
-Install the docs extras:
+Install the docs extras (requires [Quarto](https://quarto.org/) on
+`PATH`):
 
 ```bash
 pip install -e ".[docs]"
 ```
 
-Serve locally with live reload (on a port other than 8000 to avoid
-clashing with the Shiny app):
+Build the static site to `great-docs/_site/`:
 
 ```bash
-mkdocs serve --dev-addr 127.0.0.1:8001
+great-docs build
 ```
 
-Build the static site to `site/`:
+Preview it locally:
 
 ```bash
-mkdocs build
+great-docs preview
 ```
 
 ## Publishing
@@ -181,39 +196,19 @@ mkdocs build
 After pushing the project to a GitHub repository, the docs can be served
 from `https://<user>.github.io/<repo>/` via GitHub Pages.
 
-#### One-shot deploy
-
-The simplest path is MkDocs' built-in deploy command:
-
-```bash
-mkdocs gh-deploy --clean
-```
-
-This builds to `site/`, force-pushes the result to a `gh-pages` branch
-on the `origin` remote, and exits. Then enable GitHub Pages on the
-repo:
-
-1. Settings → Pages
-2. *Source*: **Deploy from a branch**
-3. *Branch*: `gh-pages` / `(root)`
-4. Save
-
-The site goes live at the URL shown in the Pages settings panel
-(typically `https://<user>.github.io/<repo>/`) within a minute or so.
-
-#### Automated deploy on push to `main`
-
-For repos where docs should rebuild on every push, the workflow at
-`.github/workflows/docs.yml` builds the site in CI and deploys it
-through GitHub's official Pages action — no `gh-pages` branch
-involved. To enable it:
+The workflow at `.github/workflows/docs.yml` (generated with
+`great-docs setup-github-pages`) builds the site with Quarto on every
+push and pull request, and deploys it to GitHub Pages on pushes to
+`main` — including PR preview deployments. To enable it:
 
 1. Settings → Pages → *Source*: **GitHub Actions**
-2. Push to `main`. The workflow runs, builds in strict mode, and
-   publishes the artifact.
+2. Push to `main`. The workflow runs and publishes the artifact.
 
 The first run requires a workflow approval if your account uses
 required-reviewer policies on Pages deployments.
+
+To regenerate the workflow (e.g. after changing Python version or
+package manager), run `great-docs setup-github-pages --force` again.
 
 ### App → Posit Connect Cloud
 
@@ -243,7 +238,8 @@ data — if your Connect Cloud account has egress controls, allowlist
 that host.
 
 For full deployment details (pinning, container deploys, other Shiny
-hosts), see the [Deployment page](docs/deployment.md) in the docs.
+hosts), see the Deployment page (`user_guide/07-deployment.qmd`) in
+the docs site.
 
 ### Package distribution
 

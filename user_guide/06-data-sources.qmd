@@ -1,4 +1,7 @@
-# Data sources
+---
+title: "Data sources"
+guide-section: "Reference"
+---
 
 All stats come from the **MLB Stats API** (`statsapi.mlb.com`), the
 official source of record for Major League Baseball. The app calls
@@ -7,7 +10,7 @@ the API directly via `requests` — no Python wrapper.
 ## Endpoints
 
 | Endpoint                                                                   | Used by                                |
-| -------------------------------------------------------------------------- | -------------------------------------- |
+| ---------------------------------------------------------------------------- | ----------------------------------------- |
 | `GET /api/v1/sports/1/players?season={year}`                               | `_load_roster()` (typeahead + deep)    |
 | `GET /api/v1/people/{id}`                                                  | `get_*_career` (biographical data)     |
 | `GET /api/v1/people/{id}/stats?stats=yearByYear&group={group}&sportId=1`   | `get_*_career` (per-season splits)     |
@@ -34,7 +37,7 @@ that yields matches. The app picks `N` based on the **Player type**
 toggle and on whether the user clicked **Search** explicitly:
 
 | Mode                          | Typeahead (auto, on each keystroke) | Search button (explicit deep lookup) |
-| ----------------------------- | ----------------------------------- | ------------------------------------ |
+| ------------------------------ | -------------------------------------- | --------------------------------------- |
 | **Active players**            | `seasons_back=3`                    | `seasons_back=29`                    |
 | **Retired players**           | `seasons_back=50`                   | `seasons_back=80`                    |
 
@@ -73,7 +76,7 @@ The filter is applied in the app layer (`_filter_by_position` in
 `search_results` is published to the dropdown:
 
 | Position toggle | Primary-position codes kept                                   |
-| --------------- | ------------------------------------------------------------- |
+| ----------------- | ----------------------------------------------------------------- |
 | **Pitcher**     | `P` (pure pitcher), `TWP` (two-way player, e.g. Ohtani)       |
 | **Batter**      | Everything *except* `P` — `C`, `1B`, `2B`, `3B`, `SS`, `LF`, `CF`, `RF`, `OF`, `DH`, `TWP`, … |
 

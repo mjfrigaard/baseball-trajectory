@@ -1,4 +1,7 @@
-# User guide
+---
+title: "User guide"
+guide-section: "Getting Started"
+---
 
 The sidebar is set up as a two-step workflow: **find a player, then load
 their stats.** Each step has its own button.
@@ -9,10 +12,10 @@ Three controls at the top of the sidebar set the search scope and the
 metric list:
 
 | Control       | Choices                                      | What it does                                                                          |
-| ------------- | -------------------------------------------- | ------------------------------------------------------------------------------------- |
+| ------------- | --------------------------------------------- | -------------------------------------------------------------------------------------- |
 | **Player type** | *Active players*, *Retired players*        | Sets how far back the player search reaches. *Active* uses a small 3-season window for instant typeahead; *Retired* widens to ~50 seasons so older retirees come up. |
 | **Position**  | *Batter*, *Pitcher*                          | Swaps the metric list and the weight column used in the curve fit (PA for batters, IP for pitchers).                                                                  |
-| **Metric**    | Batter or pitcher rate stats — see list below | Which stat to plot. Each dropdown option spells the acronym out, and a one-line definition appears below the dropdown when you change it. Full definitions, formulas, and benchmarks live on the [Metrics](metrics.md) page. |
+| **Metric**    | Batter or pitcher rate stats — see list below | Which stat to plot. Each dropdown option spells the acronym out, and a one-line definition appears below the dropdown when you change it. Full definitions, formulas, and benchmarks live on the [Metrics](03-metrics.qmd) page. |
 
 The Metric dropdown swaps with **Position**:
 
@@ -21,12 +24,7 @@ The Metric dropdown swaps with **Position**:
 | **Batter**  | **OPS** (on-base + slugging), **OBP** (on-base percentage), **SLG** (slugging percentage), **AVG** (batting average), **HR** (home runs), **ISO** (isolated power; `SLG − AVG`) |
 | **Pitcher** | **ERA** (earned run average; lower is better), **WHIP** (walks + hits per inning pitched; lower is better), **K/9** (strikeouts per 9 innings), **BB/9** (walks per 9 innings; lower is better), **HR/9** (home runs per 9 innings; lower is better) |
 
-<figure markdown>
-  ![Sidebar configured for an active batter](images/sidebar-active-batter.png){ width="320" }
-  <figcaption>The sidebar with the defaults: Active players, Batter,
-  OPS. The inline help line under the Metric dropdown shows the
-  formula and benchmark for the selected stat.</figcaption>
-</figure>
+![The sidebar with the defaults: Active players, Batter, OPS. The inline help line under the Metric dropdown shows the formula and benchmark for the selected stat.](images/sidebar-active-batter.png){width=320px fig-alt="Sidebar configured for an active batter"}
 
 ## 2. Find a player
 
@@ -60,12 +58,7 @@ Try a different name or switch Position to Batter."* Flipping the
 **Position** toggle re-filters the existing search instantly without
 re-querying the API.
 
-<figure markdown>
-  ![Sidebar in Pitcher mode](images/sidebar-pitcher-mode.png){ width="320" }
-  <figcaption>The sidebar with Position set to Pitcher. The Metric
-  list switches to ERA / WHIP / K/9 / BB/9 / HR/9, and the dropdown
-  filter only admits players whose primary position is P or TWP.</figcaption>
-</figure>
+![The sidebar with Position set to Pitcher. The Metric list switches to ERA / WHIP / K/9 / BB/9 / HR/9, and the dropdown filter only admits players whose primary position is P or TWP.](images/sidebar-pitcher-mode.png){width=320px fig-alt="Sidebar in Pitcher mode"}
 
 ### Looking up a retiree?
 
@@ -80,12 +73,12 @@ typeahead fast), click the **Search** button. That triggers a deeper
 lookup — up to ~80 seasons back in Retired mode — wide enough for
 mid-century players like Bob Feller or Stan Musial.
 
-!!! note "The first typeahead in Retired mode is slow"
-
-    Switching to *Retired players* and typing your first name walks
-    through ~50 seasonal rosters from the MLB Stats API. On a cold
-    cache that takes 15–25 seconds; you'll see a top-of-page progress
-    bar while it runs. Every subsequent keystroke is instant.
+::: {.callout-note title="The first typeahead in Retired mode is slow"}
+Switching to *Retired players* and typing your first name walks
+through ~50 seasonal rosters from the MLB Stats API. On a cold
+cache that takes 15–25 seconds; you'll see a top-of-page progress
+bar while it runs. Every subsequent keystroke is instant.
+:::
 
 ## 3. Confirm the pick
 
@@ -93,12 +86,7 @@ After the dropdown is populated, pick a row. A small **info card**
 appears underneath with the player's name, primary position, and
 debut–final seasons:
 
-<figure markdown>
-  ![Selected-player info card](images/selected-player-card.png){ width="320" }
-  <figcaption>Light-blue card under the picker showing the active
-  selection. Reads SELECTED PLAYER, then the name, then the position
-  and career-year range.</figcaption>
-</figure>
+![Light-blue card under the picker showing the active selection. Reads SELECTED PLAYER, then the name, then the position and career-year range.](images/selected-player-card.png){width=320px fig-alt="Selected-player info card"}
 
 This is your last chance to double-check the player matches the
 **Position** toggle before loading stats. If the position shown there
@@ -121,7 +109,7 @@ display.
   curve is fit. Hover the **ⓘ** icon next to the label for the full
   explanation. Default is 100; raise it for true full-time players or
   lower it to include rookie debuts and injury years. See
-  [Metrics → Min PA / IP per season](metrics.md#min-pa-ip-per-season)
+  [Metrics → Min PA / IP per season](03-metrics.qmd#min-pa-ip-per-season)
   for the threshold reference table.
 - **Refresh data cache** — clears the in-process roster and career
   caches. Useful when you've left the app running across a roster
@@ -140,26 +128,16 @@ display.
   per 9 innings), and **HR/9** (home runs per 9 innings) — the y-axis
   is **inverted** so the peak is at the top of the chart.
 
-<figure markdown>
-  ![Batter trajectory — Mike Trout's OPS by age](images/career-trajectory-trout.png){ width="720" }
-  <figcaption>A batter trajectory. Dot size scales with PA; the
-  curve is the weighted-quadratic fit; the dashed line marks the
-  fitted peak age.</figcaption>
-</figure>
+![A batter trajectory. Dot size scales with PA; the curve is the weighted-quadratic fit; the dashed line marks the fitted peak age.](images/career-trajectory-trout.png){width=720px fig-alt="Batter trajectory — Mike Trout's OPS by age"}
 
-<figure markdown>
-  ![Pitcher trajectory — Clayton Kershaw's ERA by age](images/career-trajectory-kershaw.png){ width="720" }
-  <figcaption>A pitcher trajectory on a lower-is-better metric. Note
-  the inverted y-axis: lower ERA is up, so the fitted peak still
-  visually sits at the top of the chart.</figcaption>
-</figure>
+![A pitcher trajectory on a lower-is-better metric. Note the inverted y-axis: lower ERA is up, so the fitted peak still visually sits at the top of the chart.](images/career-trajectory-kershaw.png){width=720px fig-alt="Pitcher trajectory — Clayton Kershaw's ERA by age"}
 
 ## Reading the Career Summary
 
 The one-row Career Summary table reports:
 
 | Column                   | Meaning                                                           |
-| ------------------------ | ----------------------------------------------------------------- |
+| ------------------------ | ------------------------------------------------------------------ |
 | **Weighted *metric***    | The PA- or IP-weighted career average (rounded to two decimals).  |
 | **Total PA / Total IP**  | Lifetime opportunity in the metric's natural unit.                |
 | **Best Season**          | The single season with the highest (or for ERA/WHIP, best) value. |
@@ -174,13 +152,7 @@ tracing the metric's year-by-year values across the player's career.
 Use it to spot rise/peak/decline patterns at a glance without leaving
 the page.
 
-<figure markdown>
-  ![Season Log nanoplots](images/season-log-nanoplots.png){ width="720" }
-  <figcaption>One row per metric, each with an inline sparkline of
-  year-by-year values. The Metric column spells out the acronym
-  (e.g. "OPS — On-base + Slugging") so no scrolling back to the
-  legend.</figcaption>
-</figure>
+![One row per metric, each with an inline sparkline of year-by-year values. The Metric column spells out the acronym (e.g. "OPS — On-base + Slugging") so no scrolling back to the legend.](images/season-log-nanoplots.png){width=720px fig-alt="Season Log nanoplots"}
 
 [gt-nanoplot]: https://posit-dev.github.io/great-tables/reference/GT.fmt_nanoplot.html
 

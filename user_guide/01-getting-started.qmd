@@ -1,4 +1,7 @@
-# Getting started
+---
+title: "Getting started"
+guide-section: "Getting Started"
+---
 
 ## Prerequisites
 
@@ -40,12 +43,7 @@ browser.
 5. Try changing **Metric** from `OPS — On-base + Slugging` to `HR —
    Home runs` to see his home-run arc.
 
-<figure markdown>
-  ![Mike Trout's OPS-by-age trajectory](images/career-trajectory-trout.png){ width="720" }
-  <figcaption>The result of the first-trajectory walkthrough: scatter
-  of seasons (size proportional to PA), the weighted-quadratic fit, a
-  95% confidence ribbon, and a dashed line at the fitted peak age.</figcaption>
-</figure>
+![The result of the first-trajectory walkthrough: scatter of seasons (size proportional to PA), the weighted-quadratic fit, a 95% confidence ribbon, and a dashed line at the fitted peak age.](images/career-trajectory-trout.png){width=720px fig-alt="Mike Trout's OPS-by-age trajectory"}
 
 ### Looking up a retiree
 
@@ -53,7 +51,7 @@ Toggle **Player type** to *Retired players*, then type
 e.g. `Griffey` or `Ryan`. The auto-typeahead window widens to ~50
 seasons in this mode, so older retirees come up directly. If a name
 still doesn't appear, click the **Search** button to do an even
-deeper lookup. See the [User guide](user-guide.md) for the full
+deeper lookup. See the [User guide](02-user-guide.qmd) for the full
 workflow.
 
 ## Stopping the server
@@ -62,7 +60,7 @@ Press `Ctrl-C` in the terminal where `baseball-trajectory` is running.
 
 ## Next
 
-- Read the [User guide](user-guide.md) for the full sidebar walkthrough,
+- Read the [User guide](02-user-guide.qmd) for the full sidebar walkthrough,
   including how to look up older retired players.
-- See the [Deployment](deployment.md) page if you want to host the app
+- See the [Deployment](07-deployment.qmd) page if you want to host the app
   yourself (Posit Connect Cloud, Docker, etc.).

@@ -1,4 +1,7 @@
-# Modeling approach
+---
+title: "Modeling approach"
+guide-section: "Reference"
+---
 
 The app fits a single-metric **weighted quadratic aging curve** for
 each player.
@@ -49,7 +52,7 @@ career, where fewer seasons constrain the fit.
 `summarize_career()` returns:
 
 | Field            | What it is                                                  |
-| ---------------- | ----------------------------------------------------------- |
+| ---------------- | ------------------------------------------------------------ |
 | `weighted_mean`  | Career rate stat, weighted by the same PA/IP as the fit.    |
 | `best_season`    | The season with the highest `y_col` (Season, Age, value).   |
 | `peak_age`       | Closed-form peak from the fit (or `None` if non-concave).   |
@@ -66,4 +69,4 @@ The one-row summary table in the UI is built from this dict.
   reduces their PA, which biases the fit slightly toward years the
   player was healthy and effective.
 - **No era adjustments.** A 1908 OPS is treated the same as a 2019
-  OPS. See [Limitations](limitations.md) for more.
+  OPS. See [Limitations](08-limitations.qmd) for more.

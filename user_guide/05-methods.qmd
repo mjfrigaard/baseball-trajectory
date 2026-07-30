@@ -1,4 +1,7 @@
-# Methods
+---
+title: "Methods"
+guide-section: "Reference"
+---
 
 This page walks through the analytical methods that back the app, in the
 order they're typically used: fit a player's aging curve, interpret its
@@ -27,13 +30,13 @@ mantle.select(["Season", "Age", "PA", "AB", "OPS"]).head()
 does manually: zero-filling `SF` and `HBP` for old seasons, recomputing
 `SLG`, `OBP`, `OPS` from the underlying counting stats, and aggregating
 multi-stint seasons. Age is computed with the standard mid-season rule
-(July 1) — see [Data sources](data.md#age-computation) for details.
+(July 1) — see [Data sources](06-data-sources.qmd#age-computation) for details.
 
 ## The quadratic aging curve
 
 For a given metric `y` — OPS (on-base + slugging), AVG (batting
 average), ERA (earned run average), or any of the other metrics
-listed on the [Metrics](metrics.md) page — we fit a weighted
+listed on the [Metrics](03-metrics.qmd) page — we fit a weighted
 least-squares quadratic across the player's seasons:
 
 ```
@@ -69,7 +72,7 @@ y = A + B·(Age − center) + C·(Age − center)² + ε
 with `center=30.0` by default. The coefficients are interpretable:
 
 | Coefficient | Interpretation                                                           |
-| ----------- | ------------------------------------------------------------------------ |
+| ----------- | -------------------------------------------------------------------------- |
 | `A`         | Predicted `y` at `Age = center` (default age 30).                        |
 | `B`         | Slope at `Age = center`. Positive ⇒ still rising at 30; negative ⇒ already declining. |
 | `C`         | Curvature. For a true peak `C < 0`; more negative ⇒ sharper peak. One simple reading: `C` is the *change in y from peak to one year past peak*. |
@@ -129,20 +132,20 @@ similarity-scoring algorithm, the same one Baseball-Reference's
 Start at 1000 points and subtract:
 
 | Stat        | One point per…                                |
-| ----------- | --------------------------------------------- |
-| `G`         | 20 games                                      |
-| `AB`        | 75 at-bats                                    |
-| `R`         | 10 runs scored                                |
-| `H`         | 15 hits                                       |
-| `2B`        | 5 doubles                                     |
-| `3B`        | 4 triples                                     |
-| `HR`        | 2 home runs                                   |
-| `RBI`       | 10 RBI                                        |
-| `BB`        | 25 walks                                      |
-| `SO`        | 150 strikeouts                                |
-| `SB`        | 20 stolen bases                               |
-| `AVG`       | 0.001 batting average                         |
-| `SLG`       | 0.002 slugging                                |
+| ----------- | ----------------------------------------------- |
+| `G`         | 20 games                                        |
+| `AB`        | 75 at-bats                                      |
+| `R`         | 10 runs scored                                  |
+| `H`         | 15 hits                                         |
+| `2B`        | 5 doubles                                       |
+| `3B`        | 4 triples                                       |
+| `HR`        | 2 home runs                                     |
+| `RBI`       | 10 RBI                                          |
+| `BB`        | 25 walks                                        |
+| `SO`        | 150 strikeouts                                  |
+| `SB`        | 20 stolen bases                                 |
+| `AVG`       | 0.001 batting average                           |
+| `SLG`       | 0.002 slugging                                  |
 
 …then subtract the absolute difference in **position values** (Bill
 James's table):
@@ -339,7 +342,7 @@ re-fetch on every app start.
 ## Reference
 
 | Symbol     | Where defined                                       |
-| ---------- | --------------------------------------------------- |
+| ---------- | ------------------------------------------------------ |
 | `A`, `B`, `C` | `fit_aging_curve` return dict (centered form)    |
 | `peak_age` | `fit_player_curve` and `fit_aging_curve` return dict |
 | `max_value` | `fit_player_curve` and `fit_aging_curve` return dict |
