@@ -24,5 +24,8 @@ build/
 # Local CSV cache
 .cache/
 
+# Codegraph index
+.codegraph/
+
 # Great Docs build output
 great-docs/
