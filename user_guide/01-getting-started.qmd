@@ -11,8 +11,16 @@ guide-section: "Getting Started"
 
 ## Install
 
-Clone the repository and install in editable mode with the development
-extras:
+Clone the repository, then create and activate a virtual environment
+(required on Debian/Ubuntu and other externally-managed Python
+installs — `.venv/` is already git-ignored):
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+Install in editable mode with the development extras:
 
 ```bash
 pip install -e ".[dev]"

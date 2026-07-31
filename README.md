@@ -32,6 +32,20 @@ See `user_guide/03-metrics.qmd` for full definitions, formulas, and benchmarks.
 
 ## Install
 
+Create and activate a virtual environment first (required on Debian/Ubuntu
+and other externally-managed Python installs — `.venv/` is already
+git-ignored):
+
+```bash
+python3 -m venv .venv
+```
+
+```bash
+source .venv/bin/activate
+```
+
+Then install in editable mode with the dev extras:
+
 ```bash
 pip install -e ".[dev]"
 ```
@@ -108,11 +122,15 @@ running session.
 
 - **[Polars](https://pola.rs/)** for all data manipulation (no pandas in
   this codebase; all API responses are converted from dicts/lists directly).
+
 - **[requests](https://requests.readthedocs.io/)** for direct calls to the
   MLB Stats API.
+
 - **[statsmodels](https://www.statsmodels.org/)** for the weighted
   least-squares aging-curve fit.
+
 - **[matplotlib](https://matplotlib.org/)** for the trajectory chart.
+
 - **[Shiny for Python](https://shiny.posit.co/py/)** (core API, not
   express) for the UI.
 
