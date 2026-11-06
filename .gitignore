@@ -24,6 +24,5 @@ build/
 # Local CSV cache
 .cache/
 
-
 # Great Docs build output
 great-docs/
