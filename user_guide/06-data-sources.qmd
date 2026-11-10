@@ -5,7 +5,7 @@ guide-section: "Reference"
 
 All stats come from the **MLB Stats API** (`statsapi.mlb.com`), the
 official source of record for Major League Baseball. The app calls
-the API directly via `requests` — no Python wrapper.
+the API directly via `requests` rather than through a Python wrapper.
 
 ## Endpoints
 
@@ -17,22 +17,44 @@ the API directly via `requests` — no Python wrapper.
 
 ## Caching
 
+```{mermaid}
+%%| fig-width: 7
+%%| fig-align: 'center'
+%%{init: {'theme': 'base', 'themeVariables': { 'fontFamily': 'monospace', "fontSize":"20px", "darkMode":false}}}%%
+
+flowchart TD
+    Q(["Search or Get Stats"])
+    C{"In cache?"}
+    API["MLB Stats API"]
+    K[("Roster cache<br>Career cache")]
+    R("Return DataFrame")
+    Q --> C
+    C -->|"yes"| K
+    C -->|"no"| API
+    API --> K
+    K --> R
+
+style C fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style K fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style R fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+```
+
 Three layers, all in-process:
 
-- **Roster cache** (`_CACHE`, dict keyed by `roster_<year>`). One
+* **Roster cache** (`_CACHE`, dict keyed by `roster_<year>`): one
   network round-trip per season per process. After the first fetch,
-  every keystroke filters the cached Polars DataFrame locally —
-  sub-millisecond per call.
-- **Career cache** (`@lru_cache(256)` on `get_batting_career` and
-  `get_pitching_career`). Two HTTP calls per first lookup of a
-  player; zero on subsequent lookups within the same process.
-- **Manual refresh** — `data.refresh_cache()` clears all of the
+  every keystroke filters the cached Polars DataFrame locally in
+  under a millisecond per call.
+* **Career cache** (`@lru_cache(256)` on `get_batting_career` and
+  `get_pitching_career`): two HTTP calls on the first lookup of a
+  player and zero on later lookups within the same process.
+* **Manual refresh**: `data.refresh_cache()` clears all of the
   above. The *Refresh data cache* sidebar button calls it.
 
 ## Search windows
 
 `search_player(query, seasons_back=N)` walks rosters from the current
-season back through `N` prior seasons, returning on the first season
+season back through `N` prior seasons and returns on the first season
 that yields matches. The app picks `N` based on the **Player type**
 toggle and on whether the user clicked **Search** explicitly:
 
@@ -43,53 +65,53 @@ toggle and on whether the user clicked **Search** explicitly:
 
 Active mode keeps typeahead fast (one season's roster is enough for
 the current MLB roster). Retired mode widens both windows so older
-retirees (Griffey Jr. 2010, Pedro Martínez 2009, Nolan Ryan 1993,
-Stan Musial 1963, …) come up — at the cost of a one-time
-roster-download burst when the user toggles into Retired and types
-their first keystroke (~15–25 seconds on a cold cache, instant
-afterwards).
+retirees come up (Griffey Jr. 2010, Pedro Martínez 2009, Nolan Ryan
+1993, Stan Musial 1963, …). The cost is a one-time roster-download
+burst when the user toggles into Retired and types their first
+keystroke. That burst takes ~15–25 seconds on a cold cache and is
+instant afterwards.
 
-The Search button is also the *deep-search* fallback. If
-auto-typeahead returns nothing (e.g. typing a name in Active mode
-that only appears in older rosters), clicking Search runs the wider
-lookup and refreshes the dropdown — without committing or loading
-stats.
+The Search button is also the *deep-search* fallback.
+Auto-typeahead sometimes returns nothing (e.g. typing a name in
+Active mode that only appears in older rosters). In that case,
+clicking Search runs the wider lookup and refreshes the dropdown
+without committing or loading stats.
 
 ## Position in the roster cache
 
 Each cached roster row carries the player's primary fielding position
-(`primaryPosition.abbreviation` from the MLB Stats API — e.g. `CF`,
+(`primaryPosition.abbreviation` from the MLB Stats API, e.g. `CF`,
 `P`, `SS`). `search_player` returns it as a `position` column, and
 the app uses it in two ways:
 
 1. **Dropdown labels** include the position next to the player's
-   name — *Mike Trout — CF (2011–Active)* — so users can spot a
-   mismatch before committing.
+   name (for example, *Mike Trout — CF (2011–Active)*), so users can
+   spot a mismatch before committing.
 2. **The dropdown is filtered by the Position toggle**, so users
    never see candidates whose primary position can't yield the
    requested kind of career data.
 
 ### Position-filter rules
 
-The filter is applied in the app layer (`_filter_by_position` in
-`app.py`) right after every `data.search_player` call, before
-`search_results` is published to the dropdown:
+The app layer applies the filter (`_filter_by_position` in
+`app.py`) right after every `data.search_player` call and before it
+publishes `search_results` to the dropdown:
 
 | Position toggle | Primary-position codes kept                                   |
 | ----------------- | ----------------------------------------------------------------- |
 | **Pitcher**     | `P` (pure pitcher), `TWP` (two-way player, e.g. Ohtani)       |
-| **Batter**      | Everything *except* `P` — `C`, `1B`, `2B`, `3B`, `SS`, `LF`, `CF`, `RF`, `OF`, `DH`, `TWP`, … |
+| **Batter**      | Everything *except* `P`: `C`, `1B`, `2B`, `3B`, `SS`, `LF`, `CF`, `RF`, `OF`, `DH`, `TWP`, … |
 
-Rows whose primary position is `null` are excluded in both modes —
+Both modes exclude rows whose primary position is `null`, because
 we can't confirm the player has enough data either way.
 
 The filter is intentionally **static**: it uses the
 `primaryPosition` field that comes with the roster response, not a
 per-player career-stats lookup. That keeps the dropdown fast (no
-extra HTTP calls), at the cost of a slightly conservative
-definition of "has enough data" — a position player who once threw
-a knuckleball in a blowout game will be filtered out, but that's
-the right call for an aging-curve fit.
+extra HTTP calls). The cost is a slightly conservative definition
+of "has enough data." A position player who once threw a
+knuckleball in a blowout game will be filtered out, but that's the
+right call for an aging-curve fit.
 
 When a search returns matches but the filter drops them all, the
 picker shows a position-aware empty state (*"No matching pitchers
@@ -101,8 +123,8 @@ dropdown.
 `yearByYear` splits return one row per team-season stint when a player
 was traded mid-season. The career loaders aggregate these:
 
-- **Counting stats** — summed across stints.
-- **Rate stats** — recomputed from the summed totals (so a traded
+* **Counting stats**: summed across stints.
+* **Rate stats**: recomputed from the summed totals (so a traded
   batter's AVG is total H ÷ total AB, not the average of his
   per-team averages).
 
@@ -113,13 +135,13 @@ trades.
 
 The MLB API returns IP in **official notation**: `"180.2"` means
 180⅔ innings, not 180.2 decimal. The tenths digit is *outs*, not
-real tenths. `_parse_ip()` converts to decimal innings, and the
-career loader stores `IPouts = round(decimal_ip * 3)` as the
+real tenths. `_parse_ip()` converts to decimal innings. The career
+loader then stores `IPouts = round(decimal_ip * 3)` as the
 integer-aggregation form before recomputing IP.
 
 ## Age computation
 
-Age is taken as of **July 1** of each season — the standard
+Age is taken as of **July 1** of each season. This is the standard
 mid-season rule that Baseball-Reference and FanGraphs use:
 
 ```
@@ -133,7 +155,7 @@ response, parsed by `_parse_birth_date()`.
 ## No pandas
 
 API responses arrive as Python `dict`s and `list`s. They're built into
-Polars DataFrames directly via `pl.DataFrame(rows)` — no pandas
+Polars DataFrames directly via `pl.DataFrame(rows)`, with no pandas
 intermediary. The one place pandas appears is `pl.from_pandas(...)`
 on the output of `statsmodels.get_prediction().summary_frame()`,
 which is converted on the same line and never used as pandas.

@@ -18,13 +18,13 @@ dependencies = [
     "great-tables",
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
     "pytest",
     "ruff",
 ]
 docs = [
-    "great-docs",
+    "great-docs; python_version >= '3.11'",
 ]
 
 [project.scripts]

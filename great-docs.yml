@@ -81,6 +81,12 @@ reference:
 # .well-known/ discovery, and sitemaps.
 site_url: "https://mjfrigaard.github.io/baseball-trajectory/"
 
+# Custom Head HTML
+# ----------------
+# Mermaid SVGs fill the content column so the text stays readable.
+include_in_header:
+  - '<style>.cell-output-display > div:has(svg[id^="mermaid-"]) { width: 100%; }</style>'
+
 # Site Settings
 # -------------
 # site:

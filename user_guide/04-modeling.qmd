@@ -8,6 +8,37 @@ each player.
 
 ## The model
 
+```{mermaid}
+%%| fig-width: 7
+%%| fig-align: 'center'
+%%{init: {'theme': 'base', 'themeVariables': { 'fontFamily': 'monospace', "fontSize":"20px", "darkMode":false}}}%%
+
+flowchart TD
+    S[/"Seasons<br>Age, metric, PA or IP"/]
+    N{"3 or more<br>seasons?"}
+    X("No fit")
+    W("WLS fit<br>y ~ Age + Age²")
+    B{"β₂ < 0?"}
+    PK("Peak age<br>-β₁ / (2·β₂)")
+    NP("No peak marker")
+    CI("95% confidence band")
+    S --> N
+    N -->|"no"| X
+    N -->|"yes"| W
+    W --> B
+    B -->|"yes"| PK
+    B -->|"no"| NP
+    W --> CI
+
+style N fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style X fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style W fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style B fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style PK fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style NP fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style CI fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+```
+
 For seasons indexed by Age, weighted by playing time:
 
 ```
@@ -21,13 +52,13 @@ playing time pull the curve harder than partial seasons.
 ## Why weighted
 
 A 90-PA September call-up and a 700-PA full season carry the same
-arithmetic information to ordinary least squares, but they're not
-equally informative about the player's true ability. Weighting by PA
+arithmetic information to ordinary least squares. However, they're
+not equally informative about the player's true ability. Weighting by PA
 pushes the fit toward seasons that contain more signal.
 
 ## Peak age
 
-When β₂ < 0 the parabola opens downward and there's a real maximum.
+When β₂ < 0, the parabola opens downward and there's a real maximum.
 Setting the derivative to zero gives the peak age in closed form:
 
 ```
@@ -37,8 +68,9 @@ Age* = -β₁ / (2·β₂)
 That's the value the app marks with a dashed vertical line and labels
 *Peak: ##.#*.
 
-When β₂ ≥ 0 the curve is flat or concave-up — usually a sign of an
-unfinished or unusual career — and the peak marker is suppressed.
+When β₂ ≥ 0, the curve is flat or concave-up, and the app suppresses
+the peak marker. This shape usually signals an unfinished or unusual
+career.
 
 ## Confidence band
 
@@ -47,9 +79,66 @@ prediction interval at each input age. The shaded ribbon spans
 `mean_ci_lower` to `mean_ci_upper`. It widens at the edges of the
 career, where fewer seasons constrain the fit.
 
+```{mermaid}
+%%| fig-width: 7
+%%| fig-align: 'center'
+%%{init: {'theme': 'base', 'themeVariables': { 'fontFamily': 'monospace', "fontSize":"20px", "darkMode":false}}}%%
+
+flowchart TD
+    F[["fit_player_curve()"]]
+    subgraph G1["<strong>Trajectory chart</strong>"]
+        P("Season points<br>sized by PA or IP")
+        C("Fitted curve")
+        R("95% ribbon<br>mean_ci_lower to mean_ci_upper")
+        K("Dashed line<br>at peak age")
+    end
+    F --> C
+    F --> R
+    F --> K
+    D[/"Career seasons"/] --> P
+
+style G1 fill:#FFFFFF,color:#000000,stroke:#333,stroke-width:1px,rx:10,ry:10
+style F fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style P fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style C fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style R fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style K fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+```
+
 ## Career summary
 
 `summarize_career()` returns:
+
+```{mermaid}
+%%| fig-width: 7
+%%| fig-align: 'center'
+%%{init: {'theme': 'base', 'themeVariables': { 'fontFamily': 'monospace', "fontSize":"20px", "darkMode":false}}}%%
+
+flowchart TD
+    D[/"Career seasons"/]
+    F[["fit_player_curve()"]]
+    S[["summarize_career()"]]
+    subgraph G1["<strong>Summary dict</strong>"]
+        M("weighted_mean")
+        B("best_season")
+        P("peak_age")
+        W("total_weight")
+    end
+    T("Career Summary table")
+    D --> S
+    F -->|"peak_age"| S
+    S --> G1
+    G1 --> T
+
+style G1 fill:#FFFFFF,color:#000000,stroke:#333,stroke-width:1px,rx:10,ry:10
+style F fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style S fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style M fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style B fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style P fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style W fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style T fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+```
 
 | Field            | What it is                                                  |
 | ---------------- | ------------------------------------------------------------ |
@@ -58,15 +147,15 @@ career, where fewer seasons constrain the fit.
 | `peak_age`       | Closed-form peak from the fit (or `None` if non-concave).   |
 | `total_weight`   | Career total of PA or IP.                                   |
 
-The one-row summary table in the UI is built from this dict.
+This dict feeds the one-row summary table in the UI.
 
 ## Assumptions and caveats
 
-- **A single quadratic shape** describes the arc. Bimodal arcs
-  (injury-recovery careers, mid-career position changes,
-  knuckleballers) won't be modeled well.
-- **Weights are exogenous.** A manager who benches a struggling player
-  reduces their PA, which biases the fit slightly toward years the
-  player was healthy and effective.
-- **No era adjustments.** A 1908 OPS is treated the same as a 2019
+* **A single quadratic shape** describes the arc. The model fits
+  bimodal arcs poorly (injury-recovery careers, mid-career position
+  changes, knuckleballers).
+* **Weights are exogenous.** A manager who benches a struggling player
+  reduces that player's PA. Lower PA biases the fit slightly toward
+  years the player was healthy and effective.
+* **No era adjustments.** The fit treats a 1908 OPS the same as a 2019
   OPS. See [Limitations](08-limitations.qmd) for more.

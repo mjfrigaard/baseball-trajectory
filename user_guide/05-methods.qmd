@@ -3,19 +3,45 @@ title: "Methods"
 guide-section: "Reference"
 ---
 
-This page walks through the analytical methods that back the app, in the
-order they're typically used: fit a player's aging curve, interpret its
-coefficients, find similar players, and overlay their trajectories.
+This page walks through the analytical methods behind the app. We'll
+cover them in the order they're typically used: fit a player's aging
+curve, interpret its coefficients, find similar players, and overlay
+their trajectories.
+
+```{mermaid}
+%%| fig-width: 7
+%%| fig-align: 'center'
+%%{init: {'theme': 'base', 'themeVariables': { 'fontFamily': 'monospace', "fontSize":"20px", "darkMode":false}}}%%
+
+flowchart TD
+    A(["Player ID"])
+    B[["get_batting_career()<br>get_pitching_career()"]]
+    C[["fit_player_curve()<br>fit_aging_curve()"]]
+    D[["find_similar_players()"]]
+    E[["plot_trajectories_facet()"]]
+    F[["plot_peak_vs_curvature()"]]
+    A --> B
+    B -->|"i. fit"| C
+    C -->|"ii. compare"| D
+    D -->|"iii. overlay"| E
+    E -->|"iv. summarize"| F
+
+style B fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style C fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style D fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style E fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style F fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+```
 
 All snippets use `polars` and the package's own helpers. They run in a
-notebook or REPL after `pip install -e .`. None of the snippets import
+notebook or REPL after `uv sync` (start one with `uv run python`). None of the snippets import
 `pandas`.
 
 ## A worked example: Mickey Mantle
 
 The book *Analyzing Baseball Data with R* (Marchi, Albert, Baumer) uses
-Mickey Mantle as its walking example for aging curves. We'll do the same
-— but with Mantle's player ID and modern MLB Stats API data.
+Mickey Mantle as its walking example for aging curves. We'll do the same,
+but with Mantle's player ID and modern MLB Stats API data.
 
 ```python
 from baseball_trajectory.data import search_player, get_batting_career
@@ -26,17 +52,17 @@ mantle = get_batting_career(mantle_id)
 mantle.select(["Season", "Age", "PA", "AB", "OPS"]).head()
 ```
 
-`get_batting_career` already handles the bookkeeping the R walkthrough
-does manually: zero-filling `SF` and `HBP` for old seasons, recomputing
-`SLG`, `OBP`, `OPS` from the underlying counting stats, and aggregating
-multi-stint seasons. Age is computed with the standard mid-season rule
-(July 1) — see [Data sources](06-data-sources.qmd#age-computation) for details.
+`get_batting_career` already handles the bookkeeping that the R
+walkthrough does manually. It zero-fills `SF` and `HBP` for old seasons,
+recomputes `SLG`, `OBP`, and `OPS` from the underlying counting stats,
+and aggregates multi-stint seasons. Age is computed with the standard
+mid-season rule (July 1); see [Data sources](06-data-sources.qmd#age-computation) for details.
 
 ## The quadratic aging curve
 
-For a given metric `y` — OPS (on-base + slugging), AVG (batting
-average), ERA (earned run average), or any of the other metrics
-listed on the [Metrics](03-metrics.qmd) page — we fit a weighted
+The metric `y` can be OPS (on-base + slugging), AVG (batting average),
+ERA (earned run average), or any other metric on the
+[Metrics](03-metrics.qmd) page. For a given `y`, we fit a weighted
 least-squares quadratic across the player's seasons:
 
 ```
@@ -58,9 +84,41 @@ print(fit["peak_age"], fit["max_value"], fit["curvature"])
 
 ### Centered form (R-style interpretation)
 
-A non-centered fit hides the intuition behind the coefficients: `β₀`
-(the predicted value at Age = 0) and `β₁` (the slope at Age = 0) aren't
-interesting numbers. Re-fitting with `(Age − center)` as the predictor
+```{mermaid}
+%%| fig-width: 7
+%%| fig-align: 'center'
+%%{init: {'theme': 'base', 'themeVariables': { 'fontFamily': 'monospace', "fontSize":"20px", "darkMode":false}}}%%
+
+flowchart TD
+    D[/"Career seasons"/]
+    F[["fit_aging_curve()<br>center = 30"]]
+    subgraph G1["<strong>Coefficients at Age 30</strong>"]
+        A("A<br>value at 30")
+        B("B<br>slope at 30")
+        C("C<br>curvature")
+    end
+    K{"C < 0?"}
+    P("peak_age = 30 − B / (2·C)")
+    N("No peak")
+    D --> F
+    F --> G1
+    G1 --> K
+    K -->|"yes"| P
+    K -->|"no"| N
+
+style G1 fill:#FFFFFF,color:#000000,stroke:#333,stroke-width:1px,rx:10,ry:10
+style F fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style A fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style B fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style C fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style K fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style P fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style N fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+```
+
+A non-centered fit hides the intuition behind the coefficients. In that
+form, `β₀` is the predicted value at Age = 0 and `β₁` is the slope at
+Age = 0; neither is an interesting number. Re-fitting with `(Age − center)` as the predictor
 gives each coefficient a direct meaning.
 
 `fit_aging_curve` re-parameterizes as:
@@ -94,12 +152,12 @@ fit["A"], fit["B"], fit["C"], fit["peak_age"], fit["max_value"]
 ```
 
 The R walkthrough reports Mantle's fitted curve as roughly
-`1.043 − 0.023·(Age − 30) − 0.0039·(Age − 30)²`, with a peak at age 27
-and a peak OPS of 1.077. The Python fit reproduces those numbers (modulo
+`1.043 − 0.023·(Age − 30) − 0.0039·(Age − 30)²`. That curve peaks at
+age 27 with an OPS of 1.077. The Python fit reproduces those numbers (modulo
 small differences from the API's per-season data vs. the Lahman bundle).
 
-`fit_aging_curve` and `fit_player_curve` describe the *same parabola* —
-the centered form just shifts which coordinates the coefficients
+`fit_aging_curve` and `fit_player_curve` describe the *same parabola*.
+The centered form just shifts which coordinates the coefficients
 correspond to. `peak_age` and `max_value` are translation-invariant and
 agree exactly between the two functions.
 
@@ -119,15 +177,39 @@ fig = plot_trajectory(
 fig.savefig("mantle-ops.png", dpi=150)
 ```
 
-The plot mirrors the R version: scatter of OPS-by-age (point size
-proportional to PA), a fitted curve, a vertical dashed line at the peak,
-and an annotation showing the peak's location.
+The plot mirrors the R version. It draws an OPS-by-age scatter (point
+size proportional to PA) and a fitted curve. A vertical dashed line
+marks the peak, and an annotation shows its location.
 
 ## Comparing players: Bill James similarity scores
 
 To pick a meaningful comparison group, the app uses Bill James's
 similarity-scoring algorithm, the same one Baseball-Reference's
 *Similarity Scores* page uses.
+
+```{mermaid}
+%%| fig-width: 7
+%%| fig-align: 'center'
+%%{init: {'theme': 'base', 'themeVariables': { 'fontFamily': 'monospace', "fontSize":"20px", "darkMode":false}}}%%
+
+flowchart TD
+    T[/"Target career totals"/]
+    O[/"Candidate career totals"/]
+    S("Start at 1000")
+    D("Subtract one point<br>per stat difference unit")
+    P("Subtract position<br>value difference")
+    R("Similarity score")
+    T --> S
+    O --> S
+    S --> D
+    D --> P
+    P --> R
+
+style S fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style D fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style P fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style R fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+```
 
 Start at 1000 points and subtract:
 
@@ -172,8 +254,8 @@ similarity_score(mantle_totals, schmidt_totals)
 ```
 
 `get_player_career_totals(player_id)` returns a dict with the career
-counting/rate stats plus the player's primary position — the exact
-shape `similarity_score` expects.
+counting/rate stats plus the player's primary position. That dict is
+the exact shape `similarity_score` expects.
 
 ### Finding the *N* most similar players
 
@@ -195,23 +277,23 @@ top.select(["fullName", "POS", "HR", "AVG", "sim_score"])
 ```
 
 **Why caller-supplied candidates?** Walking the entire MLB-Stats-API
-roster history is thousands of HTTP calls and seconds-to-minutes of
-latency. Limiting the pool to ~50 hand-picked candidates (e.g., the
-all-time HR leaderboard) gives meaningful comparisons in 30 seconds or
-so on first run, then is instant from cache.
+roster history takes thousands of HTTP calls and adds seconds to minutes
+of latency. Limiting the pool to ~50 hand-picked candidates (e.g., the
+all-time HR leaderboard) gives meaningful comparisons in about 30
+seconds on the first run. Later runs load from cache and are instant.
 
 If you want an automated candidate pool, two patterns work:
 
-1. **Seasonal pool** — pull a season's roster via
+1. **Seasonal pool**: pull a season's roster via
    `_load_roster(year)` and feed those IDs through
-   `get_player_career_totals`. Good for "comparable to *this* era".
-2. **Position-filtered pool** — fetch career totals for a small list
-   of known players at the target's position. Good for "comparable
-   types of player".
+   `get_player_career_totals`. This works well for "comparable to *this* era".
+2. **Position-filtered pool**: fetch career totals for a small list
+   of known players at the target's position. This works well for
+   "comparable types of player".
 
 ## Comparing trajectories side-by-side
 
-Once you have a player + comparison group, the small-multiples plot
+Once you have a player and a comparison group, the small-multiples plot
 shows their curves on a shared axis grid:
 
 ```python
@@ -233,10 +315,10 @@ fig.savefig("comparison.png", dpi=150)
 Each panel contains the player's per-season scatter (sized by season,
 fixed scale across panels) and a quadratic fit. Reading across panels:
 
-- Players whose fit is steep and concave-down peaked early (or briefly).
-- Flat fits — small `|C|` — describe steady careers (the Paul Molitor
+* Players whose fit is steep and concave-down peaked early (or briefly).
+* Flat fits (small `|C|`) describe steady careers (the Paul Molitor
   archetype).
-- Symmetric, deep parabolas describe classic *rise to peak, fall to
+* Symmetric, deep parabolas describe classic *rise to peak, fall to
   retirement* careers (the Mike Schmidt archetype).
 
 For pitching metrics, pass `lower_better=True` to invert each panel's
@@ -245,9 +327,10 @@ y-axis so the peak is at the top.
 ## Peak age and curvature, summarized
 
 Once you've fit curves for a group, the two most informative summary
-numbers per player are the **peak age** and the **curvature** `C`. A
-scatter of (peak_age, C) places each player on a simple map: early-vs-
-late peakers along the x-axis, sharp-vs-flat declines along the y-axis.
+numbers per player are the **peak age** and the **curvature** `C`. Plot
+them together. A scatter of (peak_age, C) places each player on a simple
+map: early or late peakers along the x-axis, sharp or flat declines along
+the y-axis.
 
 ```python
 from baseball_trajectory.model import fit_aging_curve
@@ -272,16 +355,46 @@ career fits for *every* player in the database:
 2. Do longer careers peak later?
 3. Does peak age vary by fielding position?
 
-The shape of the answer is the same in Python — fit one model per
-player, summarize the coefficients, plot the trend — but the data
-plumbing is heavier here. The MLB Stats API doesn't expose a single
-"give me every player's career totals" endpoint, so a full scan means
-walking ~30 seasons of rosters and fetching career stats per player
-(thousands of HTTP calls).
+The shape of the answer is the same in Python: fit one model per
+player, summarize the coefficients, and plot the trend. However, the
+data plumbing is heavier here. The MLB Stats API doesn't expose a single
+"give me every player's career totals" endpoint. As a result, a full
+scan walks ~30 seasons of rosters and fetches career stats for each
+player, which adds up to thousands of HTTP calls.
 
 ### Recipe
 
 Pseudocode for the general scan, given an in-process cache:
+
+```{mermaid}
+%%| fig-width: 7
+%%| fig-align: 'center'
+%%{init: {'theme': 'base', 'themeVariables': { 'fontFamily': 'monospace', "fontSize":"20px", "darkMode":false}}}%%
+
+flowchart TD
+    R[("Season rosters<br>_load_roster()")]
+    P("Candidate pool<br>player IDs")
+    C[["get_batting_career()"]]
+    K{"5 or more<br>seasons?"}
+    X("Skip")
+    F[["fit_aging_curve()"]]
+    S[/"Records<br>peak_age, midcareer"/]
+    L("Plot trend<br>LOESS or rolling mean")
+    R --> P
+    P --> C
+    C --> K
+    K -->|"no"| X
+    K -->|"yes"| F
+    F --> S
+    S --> L
+
+style P fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style C fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style K fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style X fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style F fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style L fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+```
 
 ```python
 from baseball_trajectory.data import _load_roster, get_batting_career
@@ -309,13 +422,13 @@ for pid in pool:
     })
 
 # 3. Plot peak_age against midcareer (a LOESS or rolling-mean trend works
-# well — matplotlib alone doesn't ship LOESS, but `statsmodels.nonparametric.
+# well; matplotlib alone doesn't ship LOESS, but `statsmodels.nonparametric.
 # smoothers_lowess.lowess` does).
 ```
 
-This is intentionally not wrapped in a single helper: the run takes long
-enough to warrant explicit batching, error handling, and persistence to
-disk between runs. For sustained analytical use, persist the
+This recipe is intentionally not wrapped in a single helper. The run
+takes long enough to warrant explicit batching, error handling, and
+saving results to disk between runs. For sustained analytical use, persist the
 career-totals frame as a Parquet/CSV after the first scan and load it
 on subsequent runs.
 
@@ -324,20 +437,19 @@ on subsequent runs.
 For reference, the *Analyzing Baseball Data with R* book reports the
 following from a Lahman-bundle scan:
 
-- **Peak age over time** — gradual rise from ~27 (1880s) to ~28 (2010s).
-- **Peak age vs. career length** — players with ≥9000 career AB tend to
+* **Peak age over time**: a gradual rise from ~27 (1880s) to ~28 (2010s).
+* **Peak age vs. career length**: players with ≥9000 career AB tend to
   peak closer to 30; players with the minimum 2000 AB peak closer to
   27.
-- **Peak age by position** — most positions cluster between 27 and 32;
-  outliers (peak after 37) are concentrated at corner-OF and
-  utility-IF spots, often players whose careers were extended by
-  position changes.
+* **Peak age by position**: most positions cluster between 27 and 32.
+  Outliers (peak after 37) concentrate at corner-OF and utility-IF
+  spots; they are often players whose position changes extended their
+  careers.
 
-These shouldn't change much when sourced from the MLB Stats API. If you
-run the scan and want to make the findings part of the app, the
-recommended path is to compute offline and ship the resulting Polars
-DataFrame as a static parquet file alongside the package — not to
-re-fetch on every app start.
+These findings shouldn't change much when sourced from the MLB Stats
+API. If you run the scan and want the findings in the app, compute them
+offline. Then ship the resulting Polars DataFrame as a static parquet
+file alongside the package, rather than re-fetching on every app start.
 
 ## Reference
 
