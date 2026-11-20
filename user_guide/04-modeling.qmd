@@ -30,13 +30,13 @@ flowchart TD
     B -->|"no"| NP
     W --> CI
 
-style N fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style X fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style W fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style B fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style PK fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style NP fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style CI fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style N fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style X fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style W fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style B fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style PK fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style NP fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style CI fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
 ```
 
 For seasons indexed by Age, weighted by playing time:
@@ -98,11 +98,11 @@ flowchart TD
     D[/"Career seasons"/] --> P
 
 style G1 fill:#FFFFFF,color:#000000,stroke:#333,stroke-width:1px,rx:10,ry:10
-style F fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style P fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style C fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style R fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style K fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style F fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style P fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style C fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style R fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style K fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
 ```
 
 ## Career summary
@@ -131,13 +131,13 @@ flowchart TD
     G1 --> T
 
 style G1 fill:#FFFFFF,color:#000000,stroke:#333,stroke-width:1px,rx:10,ry:10
-style F fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style S fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style M fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style B fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style P fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style W fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style T fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style F fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style S fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style M fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style B fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style P fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style W fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style T fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
 ```
 
 | Field            | What it is                                                  |

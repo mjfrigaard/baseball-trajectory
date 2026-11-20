@@ -26,11 +26,11 @@ flowchart TD
     D -->|"iii. overlay"| E
     E -->|"iv. summarize"| F
 
-style B fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style C fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style D fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style E fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style F fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style B fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style C fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style D fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style E fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style F fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
 ```
 
 All snippets use `polars` and the package's own helpers. They run in a
@@ -107,13 +107,13 @@ flowchart TD
     K -->|"no"| N
 
 style G1 fill:#FFFFFF,color:#000000,stroke:#333,stroke-width:1px,rx:10,ry:10
-style F fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style A fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style B fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style C fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style K fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style P fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style N fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style F fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style A fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style B fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style C fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style K fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style P fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style N fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
 ```
 
 A non-centered fit hides the intuition behind the coefficients. In that
@@ -205,10 +205,10 @@ flowchart TD
     D --> P
     P --> R
 
-style S fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style D fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style P fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style R fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style S fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style D fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style P fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style R fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
 ```
 
 Start at 1000 points and subtract:
@@ -388,12 +388,12 @@ flowchart TD
     F --> S
     S --> L
 
-style P fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style C fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style K fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style X fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style F fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style L fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style P fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style C fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style K fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style X fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style F fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style L fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
 ```
 
 ```python

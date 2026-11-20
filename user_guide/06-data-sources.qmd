@@ -34,9 +34,9 @@ flowchart TD
     API --> K
     K --> R
 
-style C fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style K fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
-style R fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
+style C fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style K fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
+style R fill:#2A6F77,color:#FFFFFF,rx:5,ry:5
 ```
 
 Three layers, all in-process:
