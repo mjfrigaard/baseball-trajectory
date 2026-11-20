@@ -69,6 +69,33 @@ def fit_player_curve(
     }
 
 
+class CareerModel:
+    """Fit player curves, returning ``None`` below ``min_seasons`` rows."""
+
+    def __init__(self, min_seasons: int = 3) -> None:
+        self.min_seasons = min_seasons
+
+    def fit(
+        self,
+        df: pl.DataFrame,
+        y_col: str,
+        weight_col: str,
+        age_col: str = "Age",
+    ) -> dict | None:
+        if self._n_seasons(df, y_col, weight_col, age_col) < self.min_seasons:
+            return None
+        return fit_player_curve(df, y_col, weight_col, age_col)
+
+    def _n_seasons(
+        self,
+        df: pl.DataFrame,
+        y_col: str,
+        weight_col: str,
+        age_col: str,
+    ) -> int:
+        return df.drop_nulls(subset=[age_col, y_col, weight_col]).height
+
+
 def fit_aging_curve(
     df: pl.DataFrame,
     y_col: str,
@@ -164,7 +191,7 @@ def summarize_career(
     best_idx = clean[y_col].arg_max()
     best_row = clean.row(best_idx, named=True)
 
-    fit = fit_player_curve(df, y_col, weight_col)
+    fit = CareerModel().fit(df, y_col, weight_col)
 
     return {
         "weighted_mean": summary.item(0, "weighted_mean"),

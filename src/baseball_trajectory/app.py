@@ -17,17 +17,17 @@ import great_tables as gt
 import polars as pl
 from shiny import App, Inputs, Outputs, Session, reactive, render, ui
 
+import baseball_trajectory.model as mdl
 from baseball_trajectory import data
-from baseball_trajectory.model import (
-    BATTING_METRICS,
-    PITCHING_METRICS,
-    fit_player_curve,
-    is_lower_better,
-    summarize_career,
-)
-from baseball_trajectory.plots import plot_empty, plot_trajectory
+from baseball_trajectory.model import BATTING_METRICS, PITCHING_METRICS, CareerModel
+
+from . import plots
+from .model import summarize_career as summarize
 
 _STYLES_PATH = Path(__file__).parent / "styles.css"
+
+# Shared across sessions; holds no per-session state.
+_model = CareerModel()
 
 # Primary-position codes that count as a "pitcher" for search filtering.
 # P = pure pitcher, TWP = two-way player (Ohtani-style; pitches *and*
@@ -546,30 +546,30 @@ def server(input: Inputs, output: Outputs, session: Session) -> None:
     def trajectory_plot():
         df = career_df()
         if df is None or df.is_empty():
-            return plot_empty("Search, pick from the list, then click Get Stats")
+            return plots.plot_empty("Search, pick from the list, then click Get Stats")
         metric = input.metric()
         if not metric:
-            return plot_empty("Pick a metric")
+            return plots.plot_empty("Pick a metric")
         weight_col = _weight_col()
         # Guard against a Position/player mismatch (e.g. Batter selected
         # while the committed player is a pitcher). career_df may have
         # rows for the wrong group, in which case the metric column
         # won't be present.
         if metric not in df.columns or weight_col not in df.columns:
-            return plot_empty(
+            return plots.plot_empty(
                 f"No {metric} data for this player — try the other "
                 f"Position (Batter / Pitcher)."
             )
-        fit = fit_player_curve(df, y_col=metric, weight_col=weight_col)
+        fit = _model.fit(df, y_col=metric, weight_col=weight_col)
         if fit is None:
-            return plot_empty("Not enough qualifying seasons to fit a curve")
-        return plot_trajectory(
+            return plots.plot_empty("Not enough qualifying seasons to fit a curve")
+        return plots.plot_trajectory(
             df,
             fit,
             y_col=metric,
             weight_col=weight_col,
             player_name=_player_name_for(committed_player_id.get() or ""),
-            lower_better=is_lower_better(metric),
+            lower_better=mdl.is_lower_better(metric),
             metric_description=_METRIC_DESCRIPTIONS.get(metric),
         )
 
@@ -584,7 +584,7 @@ def server(input: Inputs, output: Outputs, session: Session) -> None:
         weight_col = _weight_col()
         if metric not in df.columns or weight_col not in df.columns:
             return pl.DataFrame()
-        s = summarize_career(df, y_col=metric, weight_col=weight_col)
+        s = summarize(df, y_col=metric, weight_col=weight_col)
         best = s["best_season"] or {}
 
         def _round2(value):

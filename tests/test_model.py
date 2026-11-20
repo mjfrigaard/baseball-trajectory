@@ -70,3 +70,21 @@ def test_fit_aging_curve_peak_age_matches_player_curve():
     assert centered is not None and non_centered is not None
     assert abs(centered["peak_age"] - non_centered["peak_age"]) < 1e-6
     assert abs(centered["max_value"] - non_centered["max_value"]) < 1e-6
+
+
+def test_career_model_fit_matches_fit_player_curve():
+    from baseball_trajectory.model import CareerModel
+
+    df = _peaked_career()
+    fit = CareerModel().fit(df, y_col="OPS", weight_col="PA")
+    expected = fit_player_curve(df, y_col="OPS", weight_col="PA")
+    assert fit is not None and expected is not None
+    assert fit["peak_age"] == expected["peak_age"]
+
+
+def test_career_model_respects_min_seasons():
+    from baseball_trajectory.model import CareerModel
+
+    df = _peaked_career().head(5)
+    assert CareerModel(min_seasons=6).fit(df, y_col="OPS", weight_col="PA") is None
+    assert CareerModel(min_seasons=5).fit(df, y_col="OPS", weight_col="PA") is not None
