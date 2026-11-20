@@ -1,0 +1,94 @@
+---
+title: "Code structure"
+guide-section: "Reference"
+---
+
+This page shows which functions call which. The trees below come from
+[`callgrove`](https://mjfrigaard.github.io/callgrove/). It reads the
+package source without running the app. Each cell runs on every docs
+build, so the trees always match the code.
+
+```{python}
+from pathlib import Path
+
+import baseball_trajectory
+from callgrove import call_tree_app, call_tree_dir
+
+pkg = Path(baseball_trajectory.__file__).parent
+```
+
+## The server
+
+`call_tree_dir()` parses every `.py` file in the package and builds the
+tree from one function. Here it starts at `server()` in `app.py`:
+
+```{python}
+call_tree_dir(pkg, root="server")
+```
+
+A node with children starts with `█─`. Each `server.` node is a reactive
+function inside `server()`, such as an `@reactive.effect` or a
+`@render.plot`. The tree shows where each one reaches into the other
+modules:
+
+* The search effects call `search_player()` in `data.py`.
+* `career_df` calls `get_batting_career()` or `get_pitching_career()`.
+* `trajectory_plot` fits the curve and draws the chart.
+* `summary_table` calls `summarize_career()`.
+
+Helpers defined inside `server()` show up under each function that calls
+them. `_weight_col()` picks PA or IP for the Position toggle, so it
+appears as `server._weight_col` under `career_df`, `trajectory_plot`,
+and `summary_table`. A helper defined inside a render function carries
+both names: `server.summary_table._round2`.
+
+## Imports and aliases
+
+`app.py` reaches the other modules in several ways. `callgrove` follows
+each one back to the function it names:
+
+| Call in `app.py` | Import | Function |
+|---|---|---|
+| `mdl.is_lower_better()` | `import baseball_trajectory.model as mdl` | `model.is_lower_better()` |
+| `plots.plot_trajectory()` | `from . import plots` | `plots.plot_trajectory()` |
+| `summarize()` | `from .model import summarize_career as summarize` | `model.summarize_career()` |
+| `_model.fit()` | `_model = CareerModel()` at the top of `app.py` | `model.CareerModel.fit()` |
+
+Each node is labeled with the name of the definition, not the alias, so
+`summarize()` shows as `summarize_career` and `_model.fit()` shows as
+`CareerModel.fit`.
+
+## The model class
+
+`CareerModel` wraps `fit_player_curve()`. It returns `None` when a player
+has fewer than `min_seasons` qualifying seasons (default 3). The app
+keeps one shared instance, `_model`, and `summarize_career()` builds its
+own:
+
+```{python}
+call_tree_dir(pkg, root="summarize_career")
+```
+
+`CareerModel.__init__` only stores `min_seasons`, so it has no children.
+`CareerModel.fit` counts the seasons with `_n_seasons()`, then calls
+`fit_player_curve()`.
+
+## The running app
+
+`call_tree_app()` starts from the `App` object instead of the files. It
+reads the server function and looks up each name the way the server
+sees it:
+
+```{python}
+#| warning: false
+from baseball_trajectory.app import app
+
+call_tree_app(app)
+```
+
+Below the `app` root, the tree matches the one from `call_tree_dir()`,
+labels included. Reading the files and reading the running app give the
+same answer.
+
+The app's UI is built when `App()` is created, so `call_tree_app()` has
+no UI function to follow. The tree only has the server branch.

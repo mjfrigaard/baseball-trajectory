@@ -92,6 +92,9 @@ style P fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
 style A fill:#4CBB9D,color:#FFFFFF,rx:5,ry:5
 ```
 
+[Code structure](09-code-structure.qmd) shows the call trees between
+these modules, built from the source on every docs build.
+
 ## Next
 
 * Read the [User guide](02-user-guide.qmd) for the full sidebar walkthrough,

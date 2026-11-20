@@ -28,4 +28,5 @@ build/
 .codegraph/
 
 # Great Docs build output
+_freeze/
 great-docs/

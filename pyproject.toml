@@ -24,6 +24,7 @@ dev = [
     "ruff",
 ]
 docs = [
+    "callgrove",
     "great-docs; python_version >= '3.11'",
 ]
 
@@ -33,3 +34,6 @@ baseball-trajectory = "baseball_trajectory.__main__:main"
 [tool.hatch.build.targets.wheel]
 packages = ["src/baseball_trajectory"]
 include = ["src/baseball_trajectory/*.css"]
+
+[tool.uv.sources]
+callgrove = { git = "https://github.com/mjfrigaard/callgrove" }
